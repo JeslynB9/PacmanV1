@@ -52,11 +52,12 @@ public class LevelImpl implements Level {
         // Fetch all renderables for the level
         this.renderables = maze.getRenderables();
 
+        Object controllableEntity = maze.getControllable();
         // Set up player
-        if (!(maze.getControllable() instanceof Controllable)) {
+        if (maze.getControllable() == null || !(maze.getControllable() instanceof Controllable)) {
             throw new ConfigurationParseException("Player entity is not controllable");
         }
-        this.player = maze.getControllable();
+        this.player = (Controllable) controllableEntity;
         this.player.setSpeed(levelConfigurationReader.getPlayerSpeed());
         setNumLives(maze.getNumLives());
 

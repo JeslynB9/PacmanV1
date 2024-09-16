@@ -3,6 +3,7 @@ package pacman.model.maze;
 import pacman.model.entity.dynamic.DynamicEntity;
 import pacman.model.entity.Renderable;
 import pacman.model.entity.dynamic.physics.Direction;
+import pacman.model.entity.dynamic.player.Controllable;
 
 import java.util.*;
 
@@ -14,7 +15,7 @@ public class Maze {
 
     private static final int MAX_CENTER_DISTANCE = 4;
     private final List<Renderable> renderables;
-    private Renderable pacman;
+    private Controllable pacman;
     private final List<Renderable> ghosts;
     private final List<Renderable> pellets;
     private final Map<String, Boolean> isWall;
@@ -37,7 +38,11 @@ public class Maze {
     public void addRenderable(Renderable renderable, char renderableType, int x, int y) {
         if (renderable != null){
             if (renderableType == RenderableType.PACMAN){
-                this.pacman = renderable;
+                if (renderable instanceof Controllable) {
+                    this.pacman = (Controllable) renderable;
+                } else {
+                    throw new IllegalArgumentException("Renderable must be controllable.");
+                }
             } else if (renderableType == RenderableType.GHOST){
                 this.ghosts.add(renderable);
             } else if (renderableType == RenderableType.PELLET){
@@ -58,7 +63,7 @@ public class Maze {
         return renderables;
     }
 
-    public Renderable getControllable() {
+    public Controllable getControllable() {
         return pacman;
     }
 

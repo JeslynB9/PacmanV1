@@ -3,10 +3,12 @@ package pacman.view;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import pacman.model.engine.GameEngine;
 import pacman.model.entity.Renderable;
+import pacman.model.entity.dynamic.player.Pacman;
 import pacman.view.background.BackgroundDrawer;
 import pacman.view.background.StandardBackgroundDrawer;
 import pacman.view.entity.EntityView;
@@ -28,6 +30,7 @@ public class GameWindow {
     private final Pane pane;
     private final GameEngine model;
     private final List<EntityView> entityViews;
+    Pacman pacman;
 
     public GameWindow(GameEngine model, int width, int height) {
         this.model = model;
@@ -37,7 +40,7 @@ public class GameWindow {
 
         entityViews = new ArrayList<>();
 
-        KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
+        KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler(pacman);
         scene.setOnKeyPressed(keyboardInputHandler::handlePressed);
 
         BackgroundDrawer backgroundDrawer = new StandardBackgroundDrawer();

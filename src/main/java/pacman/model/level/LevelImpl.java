@@ -11,6 +11,7 @@ import pacman.model.entity.dynamic.player.Controllable;
 import pacman.model.entity.dynamic.player.Pacman;
 import pacman.model.entity.staticentity.StaticEntity;
 import pacman.model.entity.staticentity.collectable.Collectable;
+import pacman.model.factory.EntityFactory;
 import pacman.model.maze.Maze;
 
 import java.util.ArrayList;
@@ -34,9 +35,10 @@ public class LevelImpl implements Level {
     private int numLives;
     private List<Renderable> collectables;
     private GhostMode currentGhostMode;
+    private EntityFactory entityFactory;
 
-    public LevelImpl(JSONObject levelConfiguration,
-                     Maze maze) {
+    public LevelImpl(JSONObject levelConfiguration, Maze maze, EntityFactory entityFactory) {
+        this.entityFactory = entityFactory;
         this.renderables = new ArrayList<>();
         this.maze = maze;
         this.tickCount = 0;
@@ -54,7 +56,7 @@ public class LevelImpl implements Level {
         if (!(maze.getControllable() instanceof Controllable)) {
             throw new ConfigurationParseException("Player entity is not controllable");
         }
-        this.player = (Controllable) maze.getControllable();
+        this.player = maze.getControllable();
         this.player.setSpeed(levelConfigurationReader.getPlayerSpeed());
         setNumLives(maze.getNumLives());
 

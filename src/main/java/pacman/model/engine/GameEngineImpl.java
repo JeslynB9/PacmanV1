@@ -3,6 +3,8 @@ package pacman.model.engine;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import pacman.model.entity.Renderable;
+import pacman.model.factory.ConcreteEntityFactory;
+import pacman.model.factory.EntityFactory;
 import pacman.model.level.Level;
 import pacman.model.level.LevelImpl;
 import pacman.model.maze.Maze;
@@ -20,6 +22,7 @@ public class GameEngineImpl implements GameEngine {
     private final int currentLevelNo;
     private Maze maze;
     private JSONArray levelConfigs;
+    private ConcreteEntityFactory concreteEntityFactory;
 
     public GameEngineImpl(String configPath) {
         this.currentLevelNo = 0;
@@ -30,7 +33,7 @@ public class GameEngineImpl implements GameEngine {
     private void init(GameConfigurationReader gameConfigurationReader) {
         // Set up map
         String mapFile = gameConfigurationReader.getMapFile();
-        MazeCreator mazeCreator = new MazeCreator(mapFile);
+        MazeCreator mazeCreator = new MazeCreator(mapFile, concreteEntityFactory);
         this.maze = mazeCreator.createMaze();
         this.maze.setNumLives(gameConfigurationReader.getNumLives());
 
@@ -76,7 +79,7 @@ public class GameEngineImpl implements GameEngine {
         JSONObject levelConfig = (JSONObject) levelConfigs.get(currentLevelNo);
         // reset renderables to starting state
         maze.reset();
-        this.currentLevel = new LevelImpl(levelConfig, maze);
+        this.currentLevel = new LevelImpl(levelConfig, maze, concreteEntityFactory);
     }
 
     @Override

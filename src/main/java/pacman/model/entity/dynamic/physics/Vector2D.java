@@ -44,11 +44,15 @@ public class Vector2D {
         return this.y > y;
     }
 
-    public static double calculateEuclideanDistance(Vector2D vector1, Vector2D vector2){
+    public static double calculateEuclideanDistance(Vector2D vector1, Vector2D vector2) {
+        if (vector1 == null || vector2 == null) {
+            throw new IllegalArgumentException("Vectors must not be null");
+        }
         double xDistance = vector2.getX() - vector1.getX();
         double yDistance = vector2.getY() - vector1.getY();
         return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
     }
+
 
     @Override
     public String toString() {

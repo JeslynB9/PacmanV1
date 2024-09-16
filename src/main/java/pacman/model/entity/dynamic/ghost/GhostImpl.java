@@ -9,7 +9,7 @@ import pacman.model.maze.Maze;
 import java.util.*;
 
 /**
- * Concrete implemention of Ghost entity in Pac-Man Game
+ * Concrete implementation of Ghost entity in Pac-Man Game
  */
 public class GhostImpl implements Ghost {
 
@@ -35,7 +35,7 @@ public class GhostImpl implements Ghost {
         this.currentDirection = currentDirection;
         this.possibleDirections = new HashSet<>();
         this.targetCorner = targetCorner;
-        this.targetLocation = getTargetLocation();
+        this.targetLocation = getTargetLocation(); // Initialize target location
     }
 
     @Override
@@ -72,9 +72,9 @@ public class GhostImpl implements Ghost {
     }
 
     private Vector2D getTargetLocation() {
+        // Ensure the target location is never null, even if playerPosition is null
         return switch (this.ghostMode) {
-            // how does Ghost get the Player's position ??
-            case CHASE -> this.playerPosition;
+            case CHASE -> (this.playerPosition != null) ? this.playerPosition : this.startingPosition;
             case SCATTER -> this.targetCorner;
         };
     }
@@ -87,14 +87,15 @@ public class GhostImpl implements Ghost {
         Map<Direction, Double> distances = new HashMap<>();
 
         for (Direction direction : possibleDirections) {
-            // ghosts never choose to reverse travel
-            if (direction != currentDirection.opposite()) {
+            // ghosts never choose to reverse travel and ensure targetLocation is not null
+            if (direction != currentDirection.opposite() && this.targetLocation != null) {
                 distances.put(direction, Vector2D.calculateEuclideanDistance(this.kinematicState.getPotentialPosition(direction), this.targetLocation));
             }
         }
 
         // select the direction that will reach the target location fastest
-        return Collections.min(distances.entrySet(), Map.Entry.comparingByValue()).getKey();
+        return distances.isEmpty() ? currentDirection :
+                Collections.min(distances.entrySet(), Map.Entry.comparingByValue()).getKey();
     }
 
     @Override
@@ -172,4 +173,5 @@ public class GhostImpl implements Ghost {
     public Vector2D getCenter() {
         return new Vector2D(boundingBox.getMiddleX(), boundingBox.getMiddleY());
     }
+
 }

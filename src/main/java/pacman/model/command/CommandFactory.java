@@ -1,8 +1,9 @@
 package pacman.model.command;
 import pacman.model.entity.dynamic.player.Pacman;
+import pacman.model.factory.PacmanFactory;
 
 public class CommandFactory {
-    private static Pacman pacman;
+    private static Pacman pacman = PacmanFactory.getPacman();
 
     public static void setPacman(Pacman p) {
         pacman = p;

@@ -7,6 +7,7 @@ import pacman.model.engine.GameEngineImpl;
 import pacman.model.factory.ConcreteEntityFactory;
 import pacman.model.factory.EntityFactory;
 import pacman.view.GameWindow;
+import pacman.view.keyboard.KeyboardInputHandler;
 
 public class App extends Application {
 
@@ -19,6 +20,8 @@ public class App extends Application {
         EntityFactory entityFactory = new ConcreteEntityFactory();
         GameEngine model = new GameEngineImpl("src/main/resources/config.json");
         GameWindow window = new GameWindow(model, 448, 576);
+
+        KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
 
         primaryStage.setTitle("Pac-Man");
         primaryStage.setScene(window.getScene());

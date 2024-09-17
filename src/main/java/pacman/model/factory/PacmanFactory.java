@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import java.util.Map;
 
 public class PacmanFactory implements EntityFactory {
+    private static Pacman pacman;
 
     @Override
     public Renderable createEntity(char type, int x, int y) {
@@ -30,7 +31,12 @@ public class PacmanFactory implements EntityFactory {
                 PacmanVisual.CLOSED, new Image(getClass().getResourceAsStream("/maze/pacman/playerClosed.png"))
         );
 
-        return new Pacman(pacmanImages.get(PacmanVisual.LEFT), pacmanImages, boundingBox, kinematicState);
+        pacman = new Pacman(pacmanImages.get(PacmanVisual.LEFT), pacmanImages, boundingBox, kinematicState);
+        return pacman;
+    }
+
+    public static Pacman getPacman() {
+        return pacman;
     }
 }
 

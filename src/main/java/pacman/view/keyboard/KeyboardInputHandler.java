@@ -12,10 +12,8 @@ import pacman.model.entity.dynamic.player.Pacman;
  * Responsible for handling keyboard input from player
  */
 public class KeyboardInputHandler {
-    private Pacman pacman;
 
-    public KeyboardInputHandler(Pacman pacman) {
-        this.pacman = pacman;
+    public KeyboardInputHandler() {
     }
 
     public void handlePressed(KeyEvent keyEvent) {

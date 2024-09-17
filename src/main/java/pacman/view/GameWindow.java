@@ -40,7 +40,7 @@ public class GameWindow {
 
         entityViews = new ArrayList<>();
 
-        KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler(pacman);
+        KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
         scene.setOnKeyPressed(keyboardInputHandler::handlePressed);
 
         BackgroundDrawer backgroundDrawer = new StandardBackgroundDrawer();

@@ -20,55 +20,17 @@ public class ConcreteEntityFactory implements EntityFactory {
     @Override
     public Renderable createEntity(char type, int x, int y) {
         EntityFactory factory;
-        // Create the bounding box and image here (you would replace this with actual logic for images and bounding boxes)
-        BoundingBox boundingBox = new BoundingBoxImpl(new Vector2D(x * 16, y * 16), 16, 16);
-        Image wallImage1 = new Image(getClass().getResourceAsStream("/maze/walls/horizontal.png"));
-        Image wallImage2 = new Image(getClass().getResourceAsStream("/maze/walls/vertical.png"));
-        Image wallImage3 = new Image(getClass().getResourceAsStream("/maze/walls/upLeft.png"));
-        Image wallImage4 = new Image(getClass().getResourceAsStream("/maze/walls/upRight.png"));
-        Image wallImage5 = new Image(getClass().getResourceAsStream("/maze/walls/downLeft.png"));
-        Image wallImage6 = new Image(getClass().getResourceAsStream("/maze/walls/downRight.png"));
-        Image pellet = new Image(getClass().getResourceAsStream("/maze/pellet.png"));
-        Image ghostImage = new Image(getClass().getResourceAsStream("/maze/ghosts/ghost.png"));
-
-        KinematicState kinematicState = new KinematicStateImpl.KinematicStateBuilder()
-                .setPosition(new Vector2D(x * 16, y * 16))
-                .setSpeed(1.0)
-                .build();
-
-        // Define ghost's corner targets for scatter mode (example coordinates)
-        Vector2D topLeftCorner = new Vector2D(0, 0);
-        Vector2D bottomRightCorner = new Vector2D(160, 160);
-
-        // Define ghost mode and speeds for each mode (example values)
-        Map<GhostMode, Double> speeds = new HashMap<>();
-        speeds.put(GhostMode.CHASE, 1.0);
-        speeds.put(GhostMode.SCATTER, 0.75);
-
 
         switch (type) {
-            case '1': return new StaticEntityImpl(boundingBox, Renderable.Layer.FOREGROUND, wallImage1);
-            case '2': return new StaticEntityImpl(boundingBox, Renderable.Layer.FOREGROUND, wallImage2);
-            case '3': return new StaticEntityImpl(boundingBox, Renderable.Layer.FOREGROUND, wallImage3);
-            case '4': return new StaticEntityImpl(boundingBox, Renderable.Layer.FOREGROUND, wallImage4);
-            case '5': return new StaticEntityImpl(boundingBox, Renderable.Layer.FOREGROUND, wallImage5);
-            case '6': return new StaticEntityImpl(boundingBox, Renderable.Layer.FOREGROUND, wallImage6);
+            case '1': factory = new Wall1Factory(); break;
+            case '2': factory = new Wall2Factory(); break;
+            case '3': factory = new Wall3Factory(); break;
+            case '4': factory = new Wall4Factory(); break;
+            case '5': factory = new Wall5Factory(); break;
+            case '6': factory = new Wall6Factory(); break;
             case '7': factory = new PelletFactory(); break;
-            // Add Pacman instantiation
             case 'p': factory = new PacmanFactory(); break;
-
-            case 'g':
-                // Create a ghost with an initial mode of SCATTER and target the bottom-right corner
-                Ghost ghost = new GhostImpl(
-                        ghostImage,
-                        boundingBox,
-                        kinematicState,
-                        GhostMode.SCATTER,
-                        bottomRightCorner,
-                        Direction.LEFT
-                );
-                ghost.setSpeeds(speeds);
-                return ghost;
+            case 'g': factory = new GhostFactory(); break;
 
             default: return null;
         }

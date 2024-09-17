@@ -35,7 +35,7 @@ public class GhostImpl implements Ghost {
         this.currentDirection = currentDirection;
         this.possibleDirections = new HashSet<>();
         this.targetCorner = targetCorner;
-        this.targetLocation = getTargetLocation(); // Initialize target location
+        this.targetLocation = getTargetLocation();
     }
 
     @Override

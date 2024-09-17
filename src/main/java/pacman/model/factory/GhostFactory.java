@@ -14,13 +14,12 @@ public class GhostFactory implements EntityFactory {
 
     @Override
     public Renderable createEntity(char type, int x, int y) {
-        BoundingBox boundingBox = new BoundingBoxImpl(new Vector2D(x * 16, y * 16), 16, 16);
+        Image ghostImage = new Image(getClass().getResourceAsStream("/maze/ghosts/ghost.png"));
+        BoundingBox boundingBox = new BoundingBoxImpl(new Vector2D(x * 16 + 4, y * 16 - 4), ghostImage.getHeight(), ghostImage.getWidth());
         KinematicState kinematicState = new KinematicStateImpl.KinematicStateBuilder()
-                .setPosition(new Vector2D(x * 16, y * 16))
+                .setPosition(new Vector2D(x * 16 + 4, y * 16 - 4))
                 .setSpeed(1.0)
                 .build();
-
-        Image ghostImage = new Image(getClass().getResourceAsStream("/maze/ghosts/ghost.png"));
 
         // Define ghost mode speeds
         Map<GhostMode, Double> speeds = new HashMap<>();

@@ -16,12 +16,6 @@ public class PacmanFactory implements EntityFactory {
 
     @Override
     public Renderable createEntity(char type, int x, int y) {
-        BoundingBoxImpl boundingBox = new BoundingBoxImpl(new Vector2D(x * 16, y * 16), 16, 16);
-        KinematicState kinematicState = new KinematicStateImpl.KinematicStateBuilder()
-                .setPosition(new Vector2D(x * 16, y * 16))
-                .setSpeed(2.0)  // Set initial speed
-                .build();
-
         // Load Pacman images for different states
         Map<PacmanVisual, Image> pacmanImages = Map.of(
                 PacmanVisual.UP, new Image(getClass().getResourceAsStream("/maze/pacman/playerUp.png")),
@@ -30,6 +24,11 @@ public class PacmanFactory implements EntityFactory {
                 PacmanVisual.RIGHT, new Image(getClass().getResourceAsStream("/maze/pacman/playerRight.png")),
                 PacmanVisual.CLOSED, new Image(getClass().getResourceAsStream("/maze/pacman/playerClosed.png"))
         );
+        BoundingBoxImpl boundingBox = new BoundingBoxImpl(new Vector2D(x * 16, y * 16), pacmanImages.get((PacmanVisual.LEFT)).getHeight(), pacmanImages.get((PacmanVisual.LEFT)).getWidth());
+        KinematicState kinematicState = new KinematicStateImpl.KinematicStateBuilder()
+                .setPosition(new Vector2D(x * 16, y * 16))
+                .setSpeed(2.0)  // Set initial speed
+                .build();
 
         pacman = new Pacman(pacmanImages.get(PacmanVisual.LEFT), pacmanImages, boundingBox, kinematicState);
         return pacman;

@@ -10,8 +10,8 @@ import javafx.scene.image.Image;
 public class PelletFactory implements EntityFactory {
     @Override
     public Renderable createEntity(char type, int x, int y) {
-        BoundingBox boundingBox = new BoundingBoxImpl(new Vector2D(x * 16, y * 16), 16, 16);
         Image pelletImage = new Image(getClass().getResourceAsStream("/maze/pellet.png"));
+        BoundingBox boundingBox = new BoundingBoxImpl(new Vector2D(x * 16, y * 16), pelletImage.getHeight(), pelletImage.getWidth());
         return new Pellet(boundingBox, Renderable.Layer.FOREGROUND, pelletImage, 100);
     }
 }

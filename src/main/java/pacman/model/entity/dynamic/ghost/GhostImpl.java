@@ -102,6 +102,7 @@ public class GhostImpl implements Ghost {
     public void setGhostMode(GhostMode ghostMode) {
         this.ghostMode = ghostMode;
         this.kinematicState.setSpeed(speeds.get(ghostMode));
+//        System.out.println("Ghost mode: " + this.ghostMode);
     }
 
     @Override
@@ -162,6 +163,7 @@ public class GhostImpl implements Ghost {
     @Override
     public void setPossibleDirections(Set<Direction> possibleDirections) {
         this.possibleDirections = possibleDirections;
+//        System.out.println("Possible directions: " + this.possibleDirections);
     }
 
     @Override

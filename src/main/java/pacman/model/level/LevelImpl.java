@@ -190,10 +190,13 @@ public class LevelImpl implements Level {
 
     @Override
     public void handleLoseLife() {
+        System.out.println("Life Lost");
+//      Add loss of life here
     }
 
     @Override
     public void handleGameEnd() {
+//      If all lives are lost, end the game
 
     }
 

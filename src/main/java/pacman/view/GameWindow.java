@@ -3,8 +3,7 @@ package pacman.view;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.Pane; // Keep using Pane
 import javafx.util.Duration;
 import pacman.model.engine.GameEngine;
 import pacman.model.entity.Renderable;
@@ -30,10 +29,11 @@ public class GameWindow {
     private final Pane pane;
     private final GameEngine model;
     private final List<EntityView> entityViews;
-    Pacman pacman;
+    private Pacman pacman;
 
     public GameWindow(GameEngine model, int width, int height) {
         this.model = model;
+        ScoreView scoreView = ScoreView.getInstance();
 
         pane = new Pane();
         scene = new Scene(pane, width, height);
@@ -45,6 +45,9 @@ public class GameWindow {
 
         BackgroundDrawer backgroundDrawer = new StandardBackgroundDrawer();
         backgroundDrawer.draw(model, pane);
+
+        // Add ScoreView to the Pane (for simplicity)
+        pane.getChildren().add(scoreView.getView()); // Add ScoreView to the pane
     }
 
     public Scene getScene() {

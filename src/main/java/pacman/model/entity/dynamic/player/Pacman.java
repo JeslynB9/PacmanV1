@@ -5,6 +5,7 @@ import pacman.model.entity.Renderable;
 import pacman.model.entity.dynamic.physics.*;
 import pacman.model.entity.staticentity.collectable.Collectable;
 import pacman.model.level.Level;
+import pacman.view.ScoreView;
 
 import java.util.*;
 
@@ -19,6 +20,7 @@ public class Pacman implements Controllable {
     private Image currentImage;
     private Set<Direction> possibleDirections;
     private boolean isClosedImage;
+    private ScoreView scoreView;
 
     public Pacman(
             Image currentImage,
@@ -98,12 +100,20 @@ public class Pacman implements Controllable {
         return this.layer;
     }
 
+    public void setScoreView(ScoreView scoreView) {
+        this.scoreView = scoreView; // Inject ScoreView instance later
+    }
+
+
+
     @Override
     public void collideWith(Level level, Renderable renderable){
         if (level.isCollectable(renderable)){
             Collectable collectable = (Collectable) renderable;
             level.collect(collectable);
             collectable.collect();
+            System.out.println("Pellet collected!");
+            ScoreView.getInstance().incrementScore(100); // Use singleton
         }
     }
 

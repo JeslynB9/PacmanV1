@@ -13,6 +13,7 @@ import pacman.model.entity.staticentity.StaticEntity;
 import pacman.model.entity.staticentity.collectable.Collectable;
 import pacman.model.factory.EntityFactory;
 import pacman.model.maze.Maze;
+import pacman.view.LifeView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -190,13 +191,26 @@ public class LevelImpl implements Level {
 
     @Override
     public void handleLoseLife() {
-        System.out.println("Life Lost");
-//      Add loss of life here
+        if (numLives > 0) {
+            numLives--; // Decrease the number of lives
+
+            System.out.println("Life Lost: " + numLives + " lives remaining");
+
+            // Notify the LifeView to update the displayed lives
+            LifeView.getInstance().loseLife();
+
+            // Check if all lives are lost
+            if (numLives == 0) {
+                handleGameEnd(); // End the game if no lives remain
+            }
+        }
     }
 
     @Override
     public void handleGameEnd() {
-//      If all lives are lost, end the game
+        if (numLives == 0) {
+            // add logic to end the game
+        }
 
     }
 

@@ -34,6 +34,7 @@ public class GameWindow {
     public GameWindow(GameEngine model, int width, int height) {
         this.model = model;
         ScoreView scoreView = ScoreView.getInstance();
+        LifeView liveView = LifeView.getInstance();
 
         pane = new Pane();
         scene = new Scene(pane, width, height);
@@ -48,6 +49,7 @@ public class GameWindow {
 
         // Add ScoreView to the Pane (for simplicity)
         pane.getChildren().add(scoreView.getView()); // Add ScoreView to the pane
+        pane.getChildren().add(liveView.getView());
     }
 
     public Scene getScene() {

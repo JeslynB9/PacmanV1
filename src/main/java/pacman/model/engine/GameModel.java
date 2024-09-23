@@ -1,6 +1,7 @@
 package pacman.model.engine;
 
 import javafx.application.Platform;
+import pacman.model.level.LevelImpl;
 import pacman.model.observer.Observer;
 
 import java.util.ArrayList;
@@ -11,11 +12,12 @@ public class GameModel {
     private int score;
     private int numLives;
     private static GameModel instance;
+    private LevelImpl levelImpl;
 
     public GameModel() {
         observers = new ArrayList<>();
         score = 0;
-        numLives = 3; // Pac-Man starts with 3 lives
+        notifyGameOverScreen();
     }
 
     public static GameModel getInstance() {
@@ -55,6 +57,31 @@ public class GameModel {
         });
     }
 
+    public void notifyReadyScreen() {
+        System.out.println("Displaying READY screen.");
+        Platform.runLater(() -> {
+            for (Observer observer : observers) {
+                observer.updateReadyScreen(isReadyScreenActive());
+            }
+        });
+    }
+
+    public void notifyGameOverScreen() {
+        System.out.println("Displaying GAME OVER screen.");
+        Platform.runLater(() -> {
+            for (Observer observer : observers) {
+                observer.updateGameOverScreen(isGameOver());
+            }
+        });
+    }
+
+    public boolean isGameOver() {
+        return LevelImpl.isGameOver();
+    }
+
+    public boolean isReadyScreenActive() {
+        return LevelImpl.isReadyScreenActive();
+    }
 
     // Simulate the game's logic where the score changes
     public void increaseScore(int points) {
@@ -73,8 +100,10 @@ public class GameModel {
     }
 
     public void startGame() {
-        // Game initialization logic
-        notifyObservers(); // Initial notification to observers
+        LevelImpl.setReadyScreenActive(true); // Make sure the READY screen is active at the start
+        notifyReadyScreen();
+        LevelImpl.setGameOver(false);
+        notifyGameOverScreen();
     }
 
     public int getScore() {

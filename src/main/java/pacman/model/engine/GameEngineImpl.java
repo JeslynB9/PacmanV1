@@ -82,6 +82,7 @@ public class GameEngineImpl implements GameEngine {
         // reset renderables to starting state
         maze.reset();
         this.currentLevel = new LevelImpl(levelConfig, maze, concreteEntityFactory);
+        gameModel.notifyReadyScreen();
     }
 
     @Override

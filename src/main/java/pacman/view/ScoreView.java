@@ -42,6 +42,16 @@ public class ScoreView implements Observer {
         Platform.runLater(() -> scoreLabel.setText(String.valueOf(score)));
     }
 
+    @Override
+    public void updateReadyScreen(boolean readyScreenActive) {
+
+    }
+
+    @Override
+    public void updateGameOverScreen(boolean isGameOver) {
+
+    }
+
     public static ScoreView getInstance() {
         if (instance == null) {
             instance = new ScoreView();

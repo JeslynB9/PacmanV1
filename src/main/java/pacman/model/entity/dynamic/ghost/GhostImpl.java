@@ -1,6 +1,7 @@
 package pacman.model.entity.dynamic.ghost;
 
 import javafx.scene.image.Image;
+import pacman.model.engine.GameModel;
 import pacman.model.entity.Renderable;
 import pacman.model.entity.dynamic.physics.*;
 import pacman.model.level.Level;
@@ -25,6 +26,7 @@ public class GhostImpl implements Ghost {
     private Set<Direction> possibleDirections;
     private Vector2D playerPosition;
     private Map<GhostMode, Double> speeds;
+    private GameModel gameModel = GameModel.getInstance();
 
     public GhostImpl(Image image, BoundingBox boundingBox, KinematicState kinematicState, GhostMode ghostMode, Vector2D targetCorner, Direction currentDirection) {
         this.image = image;

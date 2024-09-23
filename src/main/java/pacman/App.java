@@ -4,8 +4,10 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import pacman.model.engine.GameEngine;
 import pacman.model.engine.GameEngineImpl;
+import pacman.model.engine.GameModel;
 import pacman.model.factory.ConcreteEntityFactory;
 import pacman.model.factory.EntityFactory;
+import pacman.model.level.LevelImpl;
 import pacman.view.GameWindow;
 import pacman.view.keyboard.KeyboardInputHandler;
 

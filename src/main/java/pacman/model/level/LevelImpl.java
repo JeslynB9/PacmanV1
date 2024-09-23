@@ -14,25 +14,23 @@ import pacman.model.entity.staticentity.StaticEntity;
 import pacman.model.entity.staticentity.collectable.Collectable;
 import pacman.model.factory.EntityFactory;
 import pacman.model.maze.Maze;
-import pacman.view.LifeView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Concrete implement of Pac-Man level
  */
 public class LevelImpl implements Level {
-
-    private static final int START_LEVEL_TIME = 200;
+    private static final int READY_SCREEN_DURATION = 100; // 100 frames for the READY screen
     private final Maze maze;
     private List<Renderable> renderables;
     private Controllable player;
     private List<Ghost> ghosts;
     private int tickCount;
+    private int readyFrameCount;
+    private static boolean isReadyScreenActive = true;
+    private static boolean isGameOver = false;
     private Map<GhostMode, Integer> modeLengths;
     private int numLives;
     private List<Renderable> collectables;
@@ -48,7 +46,24 @@ public class LevelImpl implements Level {
         this.modeLengths = new HashMap<>();
         this.currentGhostMode = GhostMode.SCATTER;
 
+
         initLevel(new LevelConfigurationReader(levelConfiguration));
+    }
+
+    public static boolean isReadyScreenActive() {
+        return isReadyScreenActive;
+    }
+
+    public static void setReadyScreenActive(boolean b) {
+        isReadyScreenActive = b;
+    }
+
+    public static boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public static void setGameOver(boolean b) {
+        isGameOver = b;
     }
 
     private void initLevel(LevelConfigurationReader levelConfigurationReader) {
@@ -98,44 +113,56 @@ public class LevelImpl implements Level {
 
     @Override
     public void tick() {
-        if (tickCount == modeLengths.get(currentGhostMode)) {
+        // Check if the READY screen is still active
+        if (isReadyScreenActive) {
+            readyFrameCount++;
+            System.out.println("ready frame count: " + readyFrameCount);
 
-            // update ghost mode
+            // Display the READY screen for 100 frames
+            if (readyFrameCount < READY_SCREEN_DURATION) {
+                gameModel.notifyReadyScreen();  // Notify the observers to keep showing READY screen
+                return;  // Pause the game logic, return early
+            }
+        }
+
+        readyFrameCount = 0;
+        setReadyScreenActive(false);
+        gameModel.notifyReadyScreen();
+
+        // Update ghosts based on the ghost mode (SCATTER/CHASE)
+        if (tickCount == modeLengths.get(currentGhostMode)) {
+            // Change ghost mode logic (e.g., switch between SCATTER and CHASE)
             this.currentGhostMode = GhostMode.getNextGhostMode(currentGhostMode);
             for (Ghost ghost : this.ghosts) {
                 ghost.setGhostMode(this.currentGhostMode);
             }
-
-            tickCount = 0;
+            tickCount = 0;  // Reset tick count after mode switch
         }
 
+        // Update Pac-Man sprite every few ticks
         if (tickCount % Pacman.PACMAN_IMAGE_SWAP_TICK_COUNT == 0) {
             this.player.switchImage();
         }
 
-        // Update the dynamic entities
+        // Update all dynamic entities (Pac-Man, Ghosts, etc.)
         List<DynamicEntity> dynamicEntities = getDynamicEntities();
-
         for (DynamicEntity dynamicEntity : dynamicEntities) {
-            maze.updatePossibleDirections(dynamicEntity);
-            dynamicEntity.update();
+            maze.updatePossibleDirections(dynamicEntity);  // Check valid directions
+            dynamicEntity.update();  // Update entity's state (movement, etc.)
         }
 
+        // Handle collisions between dynamic entities (Pac-Man and ghosts)
         for (int i = 0; i < dynamicEntities.size(); ++i) {
             DynamicEntity dynamicEntityA = dynamicEntities.get(i);
-
-            // handle collisions between dynamic entities
             for (int j = i + 1; j < dynamicEntities.size(); ++j) {
                 DynamicEntity dynamicEntityB = dynamicEntities.get(j);
-
-                if (dynamicEntityA.collidesWith(dynamicEntityB) ||
-                        dynamicEntityB.collidesWith(dynamicEntityA)) {
+                if (dynamicEntityA.collidesWith(dynamicEntityB)) {
                     dynamicEntityA.collideWith(this, dynamicEntityB);
                     dynamicEntityB.collideWith(this, dynamicEntityA);
                 }
             }
 
-            // handle collisions between dynamic entities and static entities
+            // Handle collisions between dynamic entities and static entities (walls, pellets)
             for (StaticEntity staticEntity : getStaticEntities()) {
                 if (dynamicEntityA.collidesWith(staticEntity)) {
                     dynamicEntityA.collideWith(this, staticEntity);
@@ -144,8 +171,9 @@ public class LevelImpl implements Level {
             }
         }
 
-        tickCount++;
+        tickCount++;  // Increment the game tick counter
     }
+
 
     @Override
     public boolean isPlayer(Renderable renderable) {
@@ -200,10 +228,20 @@ public class LevelImpl implements Level {
 
             // Notify the LifeView to update the displayed lives
             gameModel.loseLife();
+            setReadyScreenActive(true);
+            gameModel.notifyReadyScreen();
+            // Reset all the entities
+            ghosts.get(0).reset();
+            ghosts.get(1).reset();
+            ghosts.get(2).reset();
+            ghosts.get(3).reset();
+
+            player.reset();
+
 
             // Check if all lives are lost
             if (numLives == 0) {
-                handleGameEnd(); // End the game if no lives remain
+                handleGameEnd();
             }
         }
     }
@@ -211,13 +249,48 @@ public class LevelImpl implements Level {
     @Override
     public void handleGameEnd() {
         if (numLives == 0) {
-            // add logic to end the game
-        }
+            setGameOver(true);
+            destroyPacman(); // Destroy Pac-Man
+            destroyGhosts(); // Destroy ghosts
+            gameModel.notifyGameOverScreen();
 
+            setReadyScreenActive(false);
+            gameModel.notifyReadyScreen();
+
+            // Create a timer to exit the game after 5 seconds
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    System.exit(0); // Exit the game
+                }
+            }, 5000); // 5000 milliseconds = 5 seconds
+        }
     }
 
     @Override
     public void collect(Collectable collectable) {
 
     }
+
+    private void destroyPacman() {
+        if (player != null) {
+            // Remove Pac-Man from the renderables
+            renderables.remove(player);
+            // Optionally, set player to null
+            player = null;
+        }
+    }
+
+    private void destroyGhosts() {
+        for (Ghost ghost : ghosts) {
+            if (ghost != null) {
+                // Remove each ghost from the renderables
+                renderables.remove(ghost);
+                // Optionally, set ghost to null
+                ghost = null;
+            }
+        }
+    }
+
 }

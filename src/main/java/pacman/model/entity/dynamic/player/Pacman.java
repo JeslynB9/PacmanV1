@@ -103,7 +103,7 @@ public class Pacman implements Controllable {
     }
 
     public void setScoreView(ScoreView scoreView) {
-        this.scoreView = scoreView; // Inject ScoreView instance later
+        this.scoreView = scoreView;
     }
 
 

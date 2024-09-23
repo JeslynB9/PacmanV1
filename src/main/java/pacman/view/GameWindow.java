@@ -9,6 +9,8 @@ import pacman.model.engine.GameEngine;
 import pacman.model.engine.GameModel;
 import pacman.model.entity.Renderable;
 import pacman.model.entity.dynamic.player.Pacman;
+import pacman.model.level.Level;
+import pacman.model.level.LevelImpl;
 import pacman.view.background.BackgroundDrawer;
 import pacman.view.background.StandardBackgroundDrawer;
 import pacman.view.entity.EntityView;
@@ -36,8 +38,12 @@ public class GameWindow {
         this.model = model;
         ScoreView scoreView = ScoreView.getInstance();
         LifeView liveView = LifeView.getInstance();
+        ReadyView readyView = ReadyView.getInstance();
+        GameOverView gameOverView = GameOverView.getInstance();
         GameModel.getInstance().registerObservers(ScoreView.getInstance());
         GameModel.getInstance().registerObservers(LifeView.getInstance());
+        GameModel.getInstance().registerObservers(ReadyView.getInstance());
+        GameModel.getInstance().registerObservers(GameOverView.getInstance());
 
 
         pane = new Pane();
@@ -51,9 +57,11 @@ public class GameWindow {
         BackgroundDrawer backgroundDrawer = new StandardBackgroundDrawer();
         backgroundDrawer.draw(model, pane);
 
-        // Add ScoreView to the Pane (for simplicity)
-        pane.getChildren().add(scoreView.getView()); // Add ScoreView to the pane
+        // Add views
+        pane.getChildren().add(scoreView.getView());
         pane.getChildren().add(liveView.getView());
+        pane.getChildren().add(readyView.getView());
+        pane.getChildren().add(gameOverView.getView());
     }
 
     public Scene getScene() {

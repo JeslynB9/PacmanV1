@@ -49,6 +49,16 @@ public class LifeView implements Observer {
         Platform.runLater(() -> updateLives(numLives));
     }
 
+    @Override
+    public void updateReadyScreen(boolean readyScreenActive) {
+
+    }
+
+    @Override
+    public void updateGameOverScreen(boolean isGameOver) {
+
+    }
+
     private void updateLives(int numLives) {
         lifeBox.getChildren().clear();
 

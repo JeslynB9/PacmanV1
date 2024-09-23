@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane; // Keep using Pane
 import javafx.util.Duration;
 import pacman.model.engine.GameEngine;
+import pacman.model.engine.GameModel;
 import pacman.model.entity.Renderable;
 import pacman.model.entity.dynamic.player.Pacman;
 import pacman.view.background.BackgroundDrawer;
@@ -35,6 +36,9 @@ public class GameWindow {
         this.model = model;
         ScoreView scoreView = ScoreView.getInstance();
         LifeView liveView = LifeView.getInstance();
+        GameModel.getInstance().registerObservers(ScoreView.getInstance());
+        GameModel.getInstance().registerObservers(LifeView.getInstance());
+
 
         pane = new Pane();
         scene = new Scene(pane, width, height);

@@ -1,6 +1,8 @@
 package pacman.model.engine;
 
 import pacman.model.entity.Renderable;
+import pacman.view.ScoreView;
+
 import java.util.List;
 
 
@@ -46,4 +48,7 @@ public interface GameEngine {
      * Instruct the model to progress forward in time by one increment.
      */
     void tick();
+
+    GameModel getGameModel();
+
 }

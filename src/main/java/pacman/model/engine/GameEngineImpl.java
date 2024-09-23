@@ -23,11 +23,13 @@ public class GameEngineImpl implements GameEngine {
     private Maze maze;
     private JSONArray levelConfigs;
     private ConcreteEntityFactory concreteEntityFactory;
+    private GameModel gameModel;
 
     public GameEngineImpl(String configPath) {
         this.currentLevelNo = 0;
         this.concreteEntityFactory = new ConcreteEntityFactory();
         init(new GameConfigurationReader(configPath));
+        gameModel = GameModel.getInstance();
     }
 
     private void init(GameConfigurationReader gameConfigurationReader) {
@@ -86,6 +88,9 @@ public class GameEngineImpl implements GameEngine {
     public void tick() {
         currentLevel.tick();
     }
+
+    @Override
+    public GameModel getGameModel() {return gameModel;}
 
 }
 

@@ -13,54 +13,46 @@ import java.io.FileNotFoundException;
 public class ScoreView implements Observer {
     private static ScoreView instance;
     private int score;
-    private Label scoreLabel; // Label to display the score
+    private Label scoreLabel;
 
-    public ScoreView() {
+    private ScoreView() {
         try {
-            // Load the custom font from the specified file path
             FileInputStream fontFile = new FileInputStream("src/main/resources/maze/PressStart2P-Regular.ttf");
-            Font customFont = Font.loadFont(fontFile, 16); // Load the font with size 16
+            Font customFont = Font.loadFont(fontFile, 16);
 
-            // Initialize the label
             scoreLabel = new Label("0");
 
-            // Set the custom font to the label (check if the font loaded correctly)
             if (customFont != null) {
                 scoreLabel.setFont(customFont);
             } else {
                 System.out.println("Failed to load custom font.");
             }
 
-            scoreLabel.setStyle("-fx-text-fill: white;"); // Text color set to white
+            scoreLabel.setStyle("-fx-text-fill: white;");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            System.out.println("Font file not found.");
         }
     }
 
     @Override
     public void update(int score, int numLives) {
         this.score = score;
-        scoreLabel.setText(String.valueOf(score)); // Update the label text
-        System.out.println(score);
+        System.out.println("Updating score view: " + score);
+        Platform.runLater(() -> scoreLabel.setText(String.valueOf(score)));
     }
 
     public static ScoreView getInstance() {
         if (instance == null) {
             instance = new ScoreView();
+            System.out.println("Creating new instance of ScoreView");
         }
         return instance;
     }
 
     public VBox getView() {
-        VBox layout = new VBox(scoreLabel); // Create a layout to hold the label
+        VBox layout = new VBox(scoreLabel);
         VBox.setMargin(scoreLabel, new Insets(20, 0, 0, 10));
-        return layout; // Return the layout for inclusion in the main scene
-    }
-
-    public void incrementScore(int points) {
-        score += points;
-        Platform.runLater(() -> update(score, 0));
+        return layout;
     }
 }

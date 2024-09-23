@@ -2,6 +2,7 @@ package pacman.model.level;
 
 import org.json.simple.JSONObject;
 import pacman.ConfigurationParseException;
+import pacman.model.engine.GameModel;
 import pacman.model.entity.Renderable;
 import pacman.model.entity.dynamic.DynamicEntity;
 import pacman.model.entity.dynamic.ghost.Ghost;
@@ -37,6 +38,7 @@ public class LevelImpl implements Level {
     private List<Renderable> collectables;
     private GhostMode currentGhostMode;
     private EntityFactory entityFactory;
+    GameModel gameModel = GameModel.getInstance();
 
     public LevelImpl(JSONObject levelConfiguration, Maze maze, EntityFactory entityFactory) {
         this.entityFactory = entityFactory;
@@ -197,7 +199,7 @@ public class LevelImpl implements Level {
             System.out.println("Life Lost: " + numLives + " lives remaining");
 
             // Notify the LifeView to update the displayed lives
-            LifeView.getInstance().loseLife();
+            gameModel.loseLife();
 
             // Check if all lives are lost
             if (numLives == 0) {

@@ -1,6 +1,7 @@
 package pacman.model.entity.dynamic.player;
 
 import javafx.scene.image.Image;
+import pacman.model.engine.GameModel;
 import pacman.model.entity.Renderable;
 import pacman.model.entity.dynamic.physics.*;
 import pacman.model.entity.staticentity.collectable.Collectable;
@@ -21,6 +22,7 @@ public class Pacman implements Controllable {
     private Set<Direction> possibleDirections;
     private boolean isClosedImage;
     private ScoreView scoreView;
+    GameModel gameModel = GameModel.getInstance();
 
     public Pacman(
             Image currentImage,
@@ -113,7 +115,7 @@ public class Pacman implements Controllable {
             level.collect(collectable);
             collectable.collect();
             System.out.println("Pellet collected!");
-            ScoreView.getInstance().incrementScore(100); // Use singleton
+            gameModel.increaseScore(100);
         }
     }
 

@@ -46,14 +46,9 @@ public class LevelImpl implements Level {
         this.tickCount = 0;
         this.modeLengths = new HashMap<>();
         this.currentGhostMode = GhostMode.SCATTER;
-        currentInstance = this;
 
 
         initLevel(new LevelConfigurationReader(levelConfiguration));
-    }
-
-    public static LevelImpl getCurrentInstance() {
-        return currentInstance; // Return the current instance
     }
 
     public static boolean isReadyScreenActive() {

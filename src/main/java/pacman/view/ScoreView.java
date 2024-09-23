@@ -52,6 +52,12 @@ public class ScoreView implements Observer {
 
     }
 
+    @Override
+    public void updateYouWinScreen() {
+        // No need to implement
+    }
+
+
     public static ScoreView getInstance() {
         if (instance == null) {
             instance = new ScoreView();

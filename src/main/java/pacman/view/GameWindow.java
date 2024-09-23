@@ -40,10 +40,12 @@ public class GameWindow {
         LifeView liveView = LifeView.getInstance();
         ReadyView readyView = ReadyView.getInstance();
         GameOverView gameOverView = GameOverView.getInstance();
+        YouWinView youWinView = YouWinView.getInstance();
         GameModel.getInstance().registerObservers(ScoreView.getInstance());
         GameModel.getInstance().registerObservers(LifeView.getInstance());
         GameModel.getInstance().registerObservers(ReadyView.getInstance());
         GameModel.getInstance().registerObservers(GameOverView.getInstance());
+        GameModel.getInstance().registerObservers(YouWinView.getInstance());
 
 
         pane = new Pane();
@@ -63,6 +65,7 @@ public class GameWindow {
         pane.getChildren().add(readyView.getView());
         pane.getChildren().add(scoreView.getView());
         pane.getChildren().add(liveView.getView());
+        pane.getChildren().add(youWinView.getView());
 
     }
 

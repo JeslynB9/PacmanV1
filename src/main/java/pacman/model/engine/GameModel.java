@@ -76,6 +76,15 @@ public class GameModel {
         });
     }
 
+    public void notifyYouWinScreen() {
+        System.out.println("Displaying YOU WIN screen.");
+        Platform.runLater(() -> {
+            for (Observer observer : observers) {
+                observer.updateYouWinScreen();
+            }
+        });
+    }
+
     public boolean isGameOver() {
         return LevelImpl.isGameOver();
     }

@@ -23,10 +23,13 @@ public class GhostImpl implements Ghost {
     private GhostMode ghostMode;
     private Vector2D targetLocation;
     private Direction currentDirection;
+    private Direction lastDirection;
     private Set<Direction> possibleDirections;
     private Vector2D playerPosition;
     private Map<GhostMode, Double> speeds;
     private GameModel gameModel = GameModel.getInstance();
+    private int movementCount; // Tracks how long the ghost has moved in one direction
+    private static final int MIN_MOVEMENT_TICKS = 10; // Minimum ticks before direction change
 
     public GhostImpl(Image image, BoundingBox boundingBox, KinematicState kinematicState, GhostMode ghostMode, Vector2D targetCorner, Direction currentDirection) {
         this.image = image;
@@ -35,6 +38,8 @@ public class GhostImpl implements Ghost {
         this.startingPosition = kinematicState.getPosition();
         this.ghostMode = ghostMode;
         this.currentDirection = currentDirection;
+        this.lastDirection = currentDirection;
+        this.movementCount = 0; // Initialize movement count
         this.possibleDirections = new HashSet<>();
         this.targetCorner = targetCorner;
         this.targetLocation = getTargetLocation();
@@ -58,13 +63,20 @@ public class GhostImpl implements Ghost {
     }
 
     private void updateDirection() {
-        // Ghosts update their target location when they reach an intersection
+        // Increment movement count while continuing in the same direction
+        movementCount++;
+
+        // Check if at an intersection
         if (Maze.isAtIntersection(this.possibleDirections)) {
-            this.targetLocation = getTargetLocation();
+            // Only allow direction change if the ghost has moved enough in the current direction
+            if (movementCount >= MIN_MOVEMENT_TICKS) {
+                this.targetLocation = getTargetLocation();
+                this.currentDirection = selectDirection(possibleDirections);
+                movementCount = 0; // Reset movement count after changing direction
+            }
         }
 
-        this.currentDirection = selectDirection(possibleDirections);
-
+        // Apply movement in the current direction
         switch (currentDirection) {
             case LEFT -> this.kinematicState.left();
             case RIGHT -> this.kinematicState.right();
@@ -89,13 +101,13 @@ public class GhostImpl implements Ghost {
         Map<Direction, Double> distances = new HashMap<>();
 
         for (Direction direction : possibleDirections) {
-            // ghosts never choose to reverse travel and ensure targetLocation is not null
+            // Ghosts never choose to reverse travel and ensure targetLocation is not null
             if (direction != currentDirection.opposite() && this.targetLocation != null) {
                 distances.put(direction, Vector2D.calculateEuclideanDistance(this.kinematicState.getPotentialPosition(direction), this.targetLocation));
             }
         }
 
-        // select the direction that will reach the target location fastest
+        // Select the direction that will reach the target location fastest
         return distances.isEmpty() ? currentDirection :
                 Collections.min(distances.entrySet(), Map.Entry.comparingByValue()).getKey();
     }
@@ -104,7 +116,6 @@ public class GhostImpl implements Ghost {
     public void setGhostMode(GhostMode ghostMode) {
         this.ghostMode = ghostMode;
         this.kinematicState.setSpeed(speeds.get(ghostMode));
-//        System.out.println("Ghost mode: " + this.ghostMode);
     }
 
     @Override
@@ -156,7 +167,7 @@ public class GhostImpl implements Ghost {
 
     @Override
     public void reset() {
-        // return ghost to starting position
+        // Return ghost to starting position
         this.kinematicState = new KinematicStateImpl.KinematicStateBuilder()
                 .setPosition(startingPosition)
                 .build();
@@ -165,7 +176,6 @@ public class GhostImpl implements Ghost {
     @Override
     public void setPossibleDirections(Set<Direction> possibleDirections) {
         this.possibleDirections = possibleDirections;
-//        System.out.println("Possible directions: " + this.possibleDirections);
     }
 
     @Override
@@ -177,5 +187,4 @@ public class GhostImpl implements Ghost {
     public Vector2D getCenter() {
         return new Vector2D(boundingBox.getMiddleX(), boundingBox.getMiddleY());
     }
-
 }

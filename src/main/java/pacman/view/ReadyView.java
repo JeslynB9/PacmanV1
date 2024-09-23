@@ -53,6 +53,11 @@ public class ReadyView implements Observer {
     }
 
     @Override
+    public void updateYouWinScreen() {
+        // No need to implement
+    }
+
+    @Override
     public void updateReadyScreen(boolean readyScreenActive) {
         // Show the READY screen
         if (levelImpl.isReadyScreenActive()) {

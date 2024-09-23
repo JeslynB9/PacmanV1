@@ -51,13 +51,19 @@ public class LifeView implements Observer {
 
     @Override
     public void updateReadyScreen(boolean readyScreenActive) {
-
+        // No need to implement
     }
 
     @Override
     public void updateGameOverScreen(boolean isGameOver) {
-
+        // No need to implement
     }
+
+    @Override
+    public void updateYouWinScreen() {
+        // No need to implement
+    }
+
 
     private void updateLives(int numLives) {
         lifeBox.getChildren().clear();

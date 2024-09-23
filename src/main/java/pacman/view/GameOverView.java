@@ -64,6 +64,12 @@ public class GameOverView implements Observer {
 
     }
 
+    @Override
+    public void updateYouWinScreen() {
+        // No need to implement
+    }
+
+
     public VBox getView() {
         return layout;
     }

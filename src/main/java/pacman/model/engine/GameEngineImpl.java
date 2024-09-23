@@ -23,7 +23,7 @@ public class GameEngineImpl implements GameEngine {
     private Maze maze;
     private JSONArray levelConfigs;
     private ConcreteEntityFactory concreteEntityFactory;
-    private GameModel gameModel;
+    private GameModel gameModel = GameModel.getInstance();
 
     public GameEngineImpl(String configPath) {
         this.currentLevelNo = 0;
@@ -37,7 +37,10 @@ public class GameEngineImpl implements GameEngine {
         String mapFile = gameConfigurationReader.getMapFile();
         MazeCreator mazeCreator = new MazeCreator(mapFile, concreteEntityFactory);
         this.maze = mazeCreator.createMaze();
+        int numLives = gameConfigurationReader.getNumLives();
+        gameModel.setNumLives(numLives);
         this.maze.setNumLives(gameConfigurationReader.getNumLives());
+
 
         // Get level configurations
         this.levelConfigs = gameConfigurationReader.getLevelConfigs();
@@ -92,6 +95,7 @@ public class GameEngineImpl implements GameEngine {
 
     @Override
     public GameModel getGameModel() {return gameModel;}
+
 
 }
 

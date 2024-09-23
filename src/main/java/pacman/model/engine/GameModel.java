@@ -12,11 +12,12 @@ public class GameModel {
     private int score;
     private int numLives;
     private static GameModel instance;
-    private LevelImpl levelImpl;
 
     public GameModel() {
         observers = new ArrayList<>();
         score = 0;
+        numLives = getNumLives();
+
         notifyGameOverScreen();
     }
 
@@ -36,6 +37,7 @@ public class GameModel {
         }
         System.out.println("Total observers: " + observers.size());
     }
+
     // Detach observer from the list
     public void removeObservers(Observer observer) {
         observers.remove(observer);
@@ -46,7 +48,6 @@ public class GameModel {
     // Notify all observers of the state change
     private void notifyObservers() {
         System.out.println("Notifying observers: score = " + score + ", lives = " + numLives);
-        System.out.println("Observers list before notifying: " + observers); // Log before notifying
         if (observers.isEmpty()) {
             System.out.println("No observers to notify!");
         }
@@ -99,11 +100,17 @@ public class GameModel {
         }
     }
 
+    public void setNumLives(int numLives) {
+        this.numLives = numLives;
+        notifyObservers(); // Notify observers about the updated lives
+    }
+
+
     public void startGame() {
-        LevelImpl.setReadyScreenActive(true); // Make sure the READY screen is active at the start
-        notifyReadyScreen();
-        LevelImpl.setGameOver(false);
-        notifyGameOverScreen();
+        // LevelImpl.setReadyScreenActive(true); // Make sure the READY screen is active at the start
+        // notifyReadyScreen();
+        // LevelImpl.setGameOver(false);
+        // notifyGameOverScreen();
     }
 
     public int getScore() {

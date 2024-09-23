@@ -37,6 +37,7 @@ public class LevelImpl implements Level {
     private GhostMode currentGhostMode;
     private EntityFactory entityFactory;
     GameModel gameModel = GameModel.getInstance();
+    private static LevelImpl currentInstance;
 
     public LevelImpl(JSONObject levelConfiguration, Maze maze, EntityFactory entityFactory) {
         this.entityFactory = entityFactory;
@@ -45,9 +46,14 @@ public class LevelImpl implements Level {
         this.tickCount = 0;
         this.modeLengths = new HashMap<>();
         this.currentGhostMode = GhostMode.SCATTER;
+        currentInstance = this;
 
 
         initLevel(new LevelConfigurationReader(levelConfiguration));
+    }
+
+    public static LevelImpl getCurrentInstance() {
+        return currentInstance; // Return the current instance
     }
 
     public static boolean isReadyScreenActive() {

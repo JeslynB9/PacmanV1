@@ -57,11 +57,13 @@ public class GameWindow {
         BackgroundDrawer backgroundDrawer = new StandardBackgroundDrawer();
         backgroundDrawer.draw(model, pane);
 
+
         // Add views
+        pane.getChildren().add(gameOverView.getView());
+        pane.getChildren().add(readyView.getView());
         pane.getChildren().add(scoreView.getView());
         pane.getChildren().add(liveView.getView());
-        pane.getChildren().add(readyView.getView());
-        pane.getChildren().add(gameOverView.getView());
+
     }
 
     public Scene getScene() {

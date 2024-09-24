@@ -28,7 +28,6 @@ public class GhostImpl implements Ghost {
     private Set<Direction> possibleDirections;
     private Vector2D playerPosition;
     private Map<GhostMode, Double> speeds;
-    private GameModel gameModel = GameModel.getInstance();
     private int movementCount; // Tracks how long the ghost has moved in one direction
     private static final int MIN_MOVEMENT_TICKS = 10; // Minimum ticks before direction change
 
@@ -87,19 +86,18 @@ public class GhostImpl implements Ghost {
     }
 
     private Vector2D getTargetLocation() {
-        Vector2D currentPacmanPosition = null;
         Pacman pacman = Pacman.getInstance();
 
         if (pacman != null) {
             // Pacman is available, retrieve its position
-            currentPacmanPosition = pacman.getKinematicState().getPosition();
+            playerPosition = pacman.getKinematicState().getPosition();
         } else {
             // Pacman is not initialized, handle this scenario (perhaps with logging)
             System.out.println("Pacman instance is null!");
         }
 
         return switch (this.ghostMode) {
-            case CHASE -> currentPacmanPosition;
+            case CHASE -> playerPosition;
             case SCATTER -> this.targetCorner;
         };
     }
@@ -209,7 +207,4 @@ public class GhostImpl implements Ghost {
         return new Vector2D(boundingBox.getMiddleX(), boundingBox.getMiddleY());
     }
 
-    private Pacman getPacmanInstance() {
-        return Pacman.getInstance();
-    }
 }

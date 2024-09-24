@@ -73,10 +73,4 @@ public class ReadyView implements Observer {
         return layout;
     }
 
-    public static ReadyView getInstance() {
-        if (instance == null) {
-            instance = new ReadyView();
-        }
-        return instance;
-    }
 }

@@ -13,7 +13,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class GameOverView implements Observer {
-    private static GameOverView instance;
     private Label gameOverLabel;
     private VBox layout;
     private LevelImpl levelImpl;
@@ -74,10 +73,4 @@ public class GameOverView implements Observer {
         return layout;
     }
 
-    public static GameOverView getInstance() {
-        if (instance == null) {
-            instance = new GameOverView();
-        }
-        return instance;
-    }
 }

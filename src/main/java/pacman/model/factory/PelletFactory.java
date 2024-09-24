@@ -12,6 +12,6 @@ public class PelletFactory implements EntityFactory {
     public Renderable createEntity(char type, int x, int y) {
         Image pelletImage = new Image(getClass().getResourceAsStream("/maze/pellet.png"));
         BoundingBox boundingBox = new BoundingBoxImpl(new Vector2D(x * 16, y * 16), pelletImage.getHeight(), pelletImage.getWidth());
-        return new Pellet(boundingBox, Renderable.Layer.FOREGROUND, pelletImage, 100);
+        return new Pellet(boundingBox, Renderable.Layer.BACKGROUND, pelletImage, 100);
     }
 }

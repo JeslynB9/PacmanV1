@@ -27,7 +27,7 @@ public class Pellet extends StaticEntityImpl implements Collectable {
     @Override
     public void reset() {
         this.isCollectable = true;
-        setLayer(Layer.FOREGROUND);
+        setLayer(Layer.BACKGROUND);
     }
 
     @Override

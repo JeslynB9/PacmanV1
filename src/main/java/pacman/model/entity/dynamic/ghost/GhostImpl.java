@@ -4,6 +4,8 @@ import javafx.scene.image.Image;
 import pacman.model.engine.GameModel;
 import pacman.model.entity.Renderable;
 import pacman.model.entity.dynamic.physics.*;
+import pacman.model.entity.dynamic.player.Pacman;
+import pacman.model.factory.PacmanFactory;
 import pacman.model.level.Level;
 import pacman.model.maze.Maze;
 
@@ -13,7 +15,6 @@ import java.util.*;
  * Concrete implementation of Ghost entity in Pac-Man Game
  */
 public class GhostImpl implements Ghost {
-
     private final Layer layer = Layer.FOREGROUND;
     private final Image image;
     private final BoundingBox boundingBox;
@@ -86,12 +87,23 @@ public class GhostImpl implements Ghost {
     }
 
     private Vector2D getTargetLocation() {
-        // Ensure the target location is never null, even if playerPosition is null
+        Vector2D currentPacmanPosition = null;
+        Pacman pacman = Pacman.getInstance();
+
+        if (pacman != null) {
+            // Pacman is available, retrieve its position
+            currentPacmanPosition = pacman.getKinematicState().getPosition();
+        } else {
+            // Pacman is not initialized, handle this scenario (perhaps with logging)
+            System.out.println("Pacman instance is null!");
+        }
+
         return switch (this.ghostMode) {
-            case CHASE -> (this.playerPosition != null) ? this.playerPosition : this.startingPosition;
+            case CHASE -> currentPacmanPosition;
             case SCATTER -> this.targetCorner;
         };
     }
+
 
     private Direction selectDirection(Set<Direction> possibleDirections) {
         if (possibleDirections.isEmpty()) {
@@ -171,6 +183,7 @@ public class GhostImpl implements Ghost {
         this.kinematicState = new KinematicStateImpl.KinematicStateBuilder()
                 .setPosition(startingPosition)
                 .build();
+                this.boundingBox.setTopLeft(this.kinematicState.getPosition());
     }
 
     @Override
@@ -186,5 +199,9 @@ public class GhostImpl implements Ghost {
     @Override
     public Vector2D getCenter() {
         return new Vector2D(boundingBox.getMiddleX(), boundingBox.getMiddleY());
+    }
+
+    private Pacman getPacmanInstance() {
+        return Pacman.getInstance();
     }
 }

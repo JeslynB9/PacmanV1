@@ -13,10 +13,11 @@ import java.util.Map;
 
 public class PacmanFactory implements EntityFactory {
     private static Pacman pacman;
+    private static KinematicState kinematicState;
 
     @Override
     public Renderable createEntity(char type, int x, int y) {
-        // Load Pacman images for different states
+        /// Load Pacman images for different states
         Map<PacmanVisual, Image> pacmanImages = Map.of(
                 PacmanVisual.UP, new Image(getClass().getResourceAsStream("/maze/pacman/playerUp.png")),
                 PacmanVisual.DOWN, new Image(getClass().getResourceAsStream("/maze/pacman/playerDown.png")),
@@ -24,18 +25,26 @@ public class PacmanFactory implements EntityFactory {
                 PacmanVisual.RIGHT, new Image(getClass().getResourceAsStream("/maze/pacman/playerRight.png")),
                 PacmanVisual.CLOSED, new Image(getClass().getResourceAsStream("/maze/pacman/playerClosed.png"))
         );
-        BoundingBoxImpl boundingBox = new BoundingBoxImpl(new Vector2D(x * 16, y * 16), pacmanImages.get((PacmanVisual.LEFT)).getHeight(), pacmanImages.get((PacmanVisual.LEFT)).getWidth());
+
+        // Create bounding box and kinematic state
+        BoundingBoxImpl boundingBox = new BoundingBoxImpl(new Vector2D(x * 16, y * 16), pacmanImages.get(PacmanVisual.LEFT).getHeight(), pacmanImages.get(PacmanVisual.LEFT).getWidth());
         KinematicState kinematicState = new KinematicStateImpl.KinematicStateBuilder()
                 .setPosition(new Vector2D(x * 16, y * 16))
                 .setSpeed(2.0)  // Set initial speed
                 .build();
 
-        pacman = new Pacman(pacmanImages.get(PacmanVisual.LEFT), pacmanImages, boundingBox, kinematicState);
-        return pacman;
+        // Initialize the Pacman singleton instance
+        Pacman.initializeInstance(pacmanImages.get(PacmanVisual.LEFT), pacmanImages, boundingBox, kinematicState);
+
+        // Retrieve the initialized instance
+        Pacman pacman = Pacman.getInstance();
+
+        return Pacman.getInstance();
     }
 
     public static Pacman getPacman() {
-        return pacman;
+        return Pacman.getInstance();
     }
+
 }
 

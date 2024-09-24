@@ -15,7 +15,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class YouWinView implements Observer {
-    private static YouWinView instance;
     private Label youWinLabel;
     private VBox layout;
     private LevelImpl levelImpl;
@@ -84,19 +83,6 @@ public class YouWinView implements Observer {
 
     public VBox getView() {
         return layout;
-    }
-
-    public static YouWinView getInstance(GameEngine gameEngine) {
-        // First check (no synchronization)
-        if (instance == null) {
-            synchronized (YouWinView.class) {
-                // Second check (with synchronization)
-                if (instance == null) {
-                    instance = new YouWinView(gameEngine);
-                }
-            }
-        }
-        return instance;
     }
 
 }

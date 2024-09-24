@@ -11,11 +11,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class ScoreView implements Observer {
-    private static ScoreView instance;
     private int score;
     private Label scoreLabel;
 
-    private ScoreView() {
+    public ScoreView() {
         try {
             FileInputStream fontFile = new FileInputStream("src/main/resources/maze/PressStart2P-Regular.ttf");
             Font customFont = Font.loadFont(fontFile, 16);
@@ -58,13 +57,6 @@ public class ScoreView implements Observer {
     }
 
 
-    public static ScoreView getInstance() {
-        if (instance == null) {
-            instance = new ScoreView();
-            System.out.println("Creating new instance of ScoreView");
-        }
-        return instance;
-    }
 
     public VBox getView() {
         VBox layout = new VBox(scoreLabel);

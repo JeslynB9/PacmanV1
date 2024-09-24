@@ -14,8 +14,8 @@ public class Pacman implements Controllable {
 
     public static final int PACMAN_IMAGE_SWAP_TICK_COUNT = 8;
     private final Layer layer = Layer.FOREGROUND;
-    private final Map<PacmanVisual, Image> images;
-    private final BoundingBox boundingBox;
+    private Map<PacmanVisual, Image> images;
+    private BoundingBox boundingBox;
     private final Vector2D startingPosition;
     private KinematicState kinematicState;
     private Image currentImage;
@@ -23,6 +23,7 @@ public class Pacman implements Controllable {
     private boolean isClosedImage;
     private ScoreView scoreView;
     GameModel gameModel = GameModel.getInstance();
+    private static Pacman instance;
 
     public Pacman(
             Image currentImage,
@@ -37,6 +38,25 @@ public class Pacman implements Controllable {
         this.startingPosition = kinematicState.getPosition();
         this.possibleDirections = new HashSet<>();
         this.isClosedImage = false;
+    }
+
+    public static void initializeInstance(Image currentImage, Map<PacmanVisual, Image> images, BoundingBox boundingBox, KinematicState kinematicState) {
+        if (instance == null) {
+            instance = new Pacman(currentImage, images, boundingBox, kinematicState);
+            instance.currentImage = currentImage;
+            instance.images = images;
+            instance.boundingBox = boundingBox;
+            instance.kinematicState = kinematicState;
+        }
+    }
+
+    public static Pacman getInstance() {
+        if (instance == null) {
+            System.out.println("Pacman instance is null!");
+        } else {
+            System.out.println("Pacman instance retrieved.");
+        }
+        return instance;
     }
 
     @Override
@@ -66,6 +86,7 @@ public class Pacman implements Controllable {
     public void update() {
         kinematicState.update();
         this.boundingBox.setTopLeft(this.kinematicState.getPosition());
+        System.out.println("Pacman Position: " + this.kinematicState.getPosition());
     }
 
     @Override
@@ -168,5 +189,9 @@ public class Pacman implements Controllable {
     @Override
     public void switchImage(){
         this.isClosedImage = !this.isClosedImage;
+    }
+
+    public KinematicState getKinematicState() {
+        return this.kinematicState;
     }
 }

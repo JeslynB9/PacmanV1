@@ -13,12 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LifeView implements Observer {
-    private static LifeView instance;
     private int numLives;
     private List<ImageView> lifeIcons;
     private HBox lifeBox;
 
-    private LifeView() {
+    public LifeView() {
         numLives = 3;
         lifeIcons = new ArrayList<>();
         lifeBox = new HBox(10);
@@ -71,13 +70,6 @@ public class LifeView implements Observer {
         for (int i = 0; i < numLives; i++) {
             lifeBox.getChildren().add(lifeIcons.get(i));
         }
-    }
-
-    public static LifeView getInstance() {
-        if (instance == null) {
-            instance = new LifeView();
-        }
-        return instance;
     }
 
     public HBox getView() {

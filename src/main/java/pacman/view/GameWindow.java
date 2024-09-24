@@ -35,16 +35,16 @@ public class GameWindow {
 
     public GameWindow(GameEngine model, int width, int height) {
         this.model = model;
-        ScoreView scoreView = ScoreView.getInstance();
-        LifeView liveView = LifeView.getInstance();
-        ReadyView readyView = ReadyView.getInstance();
-        GameOverView gameOverView = GameOverView.getInstance();
-        YouWinView youWinView = YouWinView.getInstance(model);
-        GameModel.getInstance().registerObservers(ScoreView.getInstance());
-        GameModel.getInstance().registerObservers(LifeView.getInstance());
-        GameModel.getInstance().registerObservers(ReadyView.getInstance());
-        GameModel.getInstance().registerObservers(GameOverView.getInstance());
-        GameModel.getInstance().registerObservers(YouWinView.getInstance(model));
+        ScoreView scoreView = new ScoreView();
+        LifeView lifeView = new LifeView();
+        ReadyView readyView = new ReadyView();
+        GameOverView gameOverView = new GameOverView();
+        YouWinView youWinView = new YouWinView(model);
+        GameModel.getInstance().registerObservers(scoreView);
+        GameModel.getInstance().registerObservers(lifeView);
+        GameModel.getInstance().registerObservers(readyView);
+        GameModel.getInstance().registerObservers(gameOverView);
+        GameModel.getInstance().registerObservers(youWinView);
 
 
         pane = new Pane();
@@ -63,7 +63,7 @@ public class GameWindow {
         pane.getChildren().add(gameOverView.getView());
         pane.getChildren().add(readyView.getView());
         pane.getChildren().add(scoreView.getView());
-        pane.getChildren().add(liveView.getView());
+        pane.getChildren().add(lifeView.getView());
         pane.getChildren().add(youWinView.getView());
 
     }

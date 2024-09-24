@@ -27,9 +27,9 @@ public class PacmanFactory implements EntityFactory {
         );
 
         // Create bounding box and kinematic state
-        BoundingBoxImpl boundingBox = new BoundingBoxImpl(new Vector2D(x * 16, y * 16), pacmanImages.get(PacmanVisual.LEFT).getHeight(), pacmanImages.get(PacmanVisual.LEFT).getWidth());
+        BoundingBoxImpl boundingBox = new BoundingBoxImpl(new Vector2D(x * 16 + 4, y * 16 - 4), pacmanImages.get(PacmanVisual.LEFT).getHeight(), pacmanImages.get(PacmanVisual.LEFT).getWidth());
         KinematicState kinematicState = new KinematicStateImpl.KinematicStateBuilder()
-                .setPosition(new Vector2D(x * 16, y * 16))
+                .setPosition(new Vector2D(x * 16 + 4, y * 16 - 4))
                 .setSpeed(2.0)  // Set initial speed
                 .build();
 

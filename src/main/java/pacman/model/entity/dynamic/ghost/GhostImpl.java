@@ -183,7 +183,15 @@ public class GhostImpl implements Ghost {
         this.kinematicState = new KinematicStateImpl.KinematicStateBuilder()
                 .setPosition(startingPosition)
                 .build();
-                this.boundingBox.setTopLeft(this.kinematicState.getPosition());
+        this.boundingBox.setTopLeft(this.kinematicState.getPosition());
+
+        // Reset ghost state
+        this.ghostMode = GhostMode.SCATTER;
+        this.currentDirection = Direction.LEFT;
+        this.lastDirection = currentDirection;
+        this.movementCount = 0;
+        this.possibleDirections.clear();
+        this.targetLocation = getTargetLocation();
     }
 
     @Override

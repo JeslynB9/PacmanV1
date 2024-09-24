@@ -9,13 +9,12 @@ import pacman.model.engine.GameEngine;
 import pacman.model.engine.GameModel;
 import pacman.model.entity.Renderable;
 import pacman.model.entity.dynamic.player.Pacman;
-import pacman.model.level.Level;
-import pacman.model.level.LevelImpl;
 import pacman.view.background.BackgroundDrawer;
 import pacman.view.background.StandardBackgroundDrawer;
 import pacman.view.entity.EntityView;
 import pacman.view.entity.EntityViewImpl;
 import pacman.view.keyboard.KeyboardInputHandler;
+import pacman.view.observer.*;
 
 import java.io.File;
 import java.util.ArrayList;

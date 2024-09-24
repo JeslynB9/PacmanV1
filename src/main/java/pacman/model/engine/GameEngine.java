@@ -1,7 +1,6 @@
 package pacman.model.engine;
 
 import pacman.model.entity.Renderable;
-import pacman.view.ScoreView;
 
 import java.util.List;
 

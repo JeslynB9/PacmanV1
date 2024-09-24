@@ -6,7 +6,7 @@ import pacman.model.entity.Renderable;
 import pacman.model.entity.dynamic.physics.*;
 import pacman.model.entity.staticentity.collectable.Collectable;
 import pacman.model.level.Level;
-import pacman.view.ScoreView;
+import pacman.view.observer.ScoreView;
 
 import java.util.*;
 

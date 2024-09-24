@@ -1,7 +1,7 @@
 package pacman.model.observer;
 
 public interface Subject {
-    void registerObserver(Observer o);
-    void removeObserver(Observer o);
+    void registerObservers(Observer o);
+    void removeObservers(Observer o);
     void notifyObservers();
 }

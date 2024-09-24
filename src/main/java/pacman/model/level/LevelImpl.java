@@ -37,7 +37,6 @@ public class LevelImpl implements Level {
     private GhostMode currentGhostMode;
     private EntityFactory entityFactory;
     GameModel gameModel = GameModel.getInstance();
-    private static LevelImpl currentInstance;
 
     public LevelImpl(JSONObject levelConfiguration, Maze maze, EntityFactory entityFactory) {
         this.entityFactory = entityFactory;

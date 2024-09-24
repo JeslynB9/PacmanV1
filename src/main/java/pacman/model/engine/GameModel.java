@@ -3,11 +3,12 @@ package pacman.model.engine;
 import javafx.application.Platform;
 import pacman.model.level.LevelImpl;
 import pacman.model.observer.Observer;
+import pacman.model.observer.Subject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameModel {
+public class GameModel implements Subject {
     private List<Observer> observers;
     private int score;
     private int numLives;
@@ -47,7 +48,7 @@ public class GameModel {
     }
 
     // Notify all observers of the state change
-    private void notifyObservers() {
+    public void notifyObservers() {
         System.out.println("Notifying observers: score = " + score + ", lives = " + numLives);
         if (observers.isEmpty()) {
             System.out.println("No observers to notify!");

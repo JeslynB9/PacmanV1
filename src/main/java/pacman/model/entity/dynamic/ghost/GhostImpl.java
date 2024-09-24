@@ -30,8 +30,9 @@ public class GhostImpl implements Ghost {
     private Map<GhostMode, Double> speeds;
     private int movementCount; // Tracks how long the ghost has moved in one direction
     private static final int MIN_MOVEMENT_TICKS = 10; // Minimum ticks before direction change
+    private Pacman pacman;
 
-    public GhostImpl(Image image, BoundingBox boundingBox, KinematicState kinematicState, GhostMode ghostMode, Vector2D targetCorner, Direction currentDirection) {
+    public GhostImpl(Image image, BoundingBox boundingBox, KinematicState kinematicState, GhostMode ghostMode, Vector2D targetCorner, Direction currentDirection, Pacman pacman) {
         this.image = image;
         this.boundingBox = boundingBox;
         this.kinematicState = kinematicState;
@@ -43,6 +44,7 @@ public class GhostImpl implements Ghost {
         this.possibleDirections = new HashSet<>();
         this.targetCorner = targetCorner;
         this.targetLocation = getTargetLocation();
+        this.pacman = pacman;
     }
 
     @Override
@@ -86,7 +88,7 @@ public class GhostImpl implements Ghost {
     }
 
     private Vector2D getTargetLocation() {
-        Pacman pacman = Pacman.getInstance();
+        Vector2D playerPosition = null;
 
         if (pacman != null) {
             // Pacman is available, retrieve its position
@@ -96,11 +98,13 @@ public class GhostImpl implements Ghost {
             System.out.println("Pacman instance is null!");
         }
 
+        // Return target based on ghostMode: CHASE -> playerPosition, SCATTER -> targetCorner
         return switch (this.ghostMode) {
-            case CHASE -> playerPosition;
-            case SCATTER -> this.targetCorner;
+            case CHASE -> playerPosition;  // Chase mode targets Pacman's current position
+            case SCATTER -> this.targetCorner;  // Scatter mode targets the ghost's designated corner
         };
     }
+
 
 
     private Direction selectDirection(Set<Direction> possibleDirections) {

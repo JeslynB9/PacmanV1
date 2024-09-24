@@ -13,7 +13,6 @@ import java.util.Map;
 
 public class PacmanFactory implements EntityFactory {
     private static Pacman pacman;
-    private static KinematicState kinematicState;
 
     @Override
     public Renderable createEntity(char type, int x, int y) {
@@ -33,18 +32,15 @@ public class PacmanFactory implements EntityFactory {
                 .setSpeed(2.0)  // Set initial speed
                 .build();
 
-        // Initialize the Pacman singleton instance
-        Pacman.initializeInstance(pacmanImages.get(PacmanVisual.LEFT), pacmanImages, boundingBox, kinematicState);
+        // Create a new Pacman instance
+        pacman = new Pacman(pacmanImages.get(PacmanVisual.LEFT), pacmanImages, boundingBox, kinematicState);
 
-        // Retrieve the initialized instance
-        Pacman pacman = Pacman.getInstance();
-
-        return Pacman.getInstance();
+        return pacman;
     }
 
     public static Pacman getPacman() {
-        return Pacman.getInstance();
+        return pacman;
     }
-
 }
+
 

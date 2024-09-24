@@ -23,7 +23,6 @@ public class Pacman implements Controllable {
     private boolean isClosedImage;
     private ScoreView scoreView;
     GameModel gameModel = GameModel.getInstance();
-    private static Pacman instance;
 
     public Pacman(
             Image currentImage,
@@ -38,25 +37,6 @@ public class Pacman implements Controllable {
         this.startingPosition = kinematicState.getPosition();
         this.possibleDirections = new HashSet<>();
         this.isClosedImage = false;
-    }
-
-    public static void initializeInstance(Image currentImage, Map<PacmanVisual, Image> images, BoundingBox boundingBox, KinematicState kinematicState) {
-        if (instance == null) {
-            instance = new Pacman(currentImage, images, boundingBox, kinematicState);
-            instance.currentImage = currentImage;
-            instance.images = images;
-            instance.boundingBox = boundingBox;
-            instance.kinematicState = kinematicState;
-        }
-    }
-
-    public static Pacman getInstance() {
-        if (instance == null) {
-            System.out.println("Pacman instance is null!");
-        } else {
-            System.out.println("Pacman instance retrieved.");
-        }
-        return instance;
     }
 
     @Override
@@ -127,8 +107,6 @@ public class Pacman implements Controllable {
         this.scoreView = scoreView;
     }
 
-
-
     @Override
     public void collideWith(Level level, Renderable renderable){
         if (level.isCollectable(renderable)){
@@ -142,7 +120,7 @@ public class Pacman implements Controllable {
 
     @Override
     public boolean collidesWith(Renderable renderable){
-       return boundingBox.collidesWith(kinematicState.getDirection(), renderable.getBoundingBox());
+        return boundingBox.collidesWith(kinematicState.getDirection(), renderable.getBoundingBox());
     }
 
     @Override

@@ -2,6 +2,8 @@ package pacman.model.maze;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import pacman.model.entity.Renderable;
 import pacman.model.factory.EntityFactory;
@@ -42,37 +44,75 @@ public class MazeCreator {
 
         File f = new File(this.fileName);
         Maze maze = new Maze();
+        List<GhostPosition> ghostPositions = new ArrayList<>(); // Store ghost positions for deferred creation
 
-        try {
-            Scanner scanner = new Scanner(f);
-
+        try (Scanner scanner = new Scanner(f)) {
+            // First pass: locate and create Pacman
             int rowIndex = 0;
+            boolean pacmanCreated = false;
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 char[] row = line.toCharArray();
 
                 for (int columnIndex = 0; columnIndex < row.length; columnIndex++) {
-                    char type = row[columnIndex]; // Access the character from the row
-                    Renderable entity = entityFactory.createEntity(type, columnIndex, rowIndex); // Use columnIndex for x and rowIndex for y
-                    if (entity != null) {
-                        maze.addRenderable(entity, type, columnIndex, rowIndex); // Use columnIndex for x and rowIndex for y
+                    char type = row[columnIndex];
+
+                    if (type == 'p') { // 'p' for Pacman
+                        Renderable pacman = entityFactory.createEntity(type, columnIndex, rowIndex);
+                        if (pacman != null) {
+                            maze.addRenderable(pacman, type, columnIndex, rowIndex);
+                            pacmanCreated = true;
+                        }
+                    } else if (type == 'g') {
+                        // Defer ghost creation by saving its position
+                        ghostPositions.add(new GhostPosition(type, columnIndex, rowIndex));
+                    } else {
+                        // Create all other entities except Pacman and Ghosts
+                        Renderable entity = entityFactory.createEntity(type, columnIndex, rowIndex);
+                        if (entity != null) {
+                            maze.addRenderable(entity, type, columnIndex, rowIndex);
+                        }
                     }
                 }
 
                 rowIndex++;
             }
 
-            scanner.close();
+            if (!pacmanCreated) {
+                throw new IllegalStateException("Pacman not found in the maze file.");
+            }
+
+            // Second pass: create ghosts after Pacman is created
+            for (GhostPosition ghostPos : ghostPositions) {
+                Renderable ghost = entityFactory.createEntity(ghostPos.type, ghostPos.x, ghostPos.y);
+                if (ghost != null) {
+                    maze.addRenderable(ghost, ghostPos.type, ghostPos.x, ghostPos.y);
+                }
+            }
+
         } catch (FileNotFoundException e) {
-            System.out.println("No maze file was found.");
-            e.printStackTrace(); // Print stack trace for debugging
-            System.exit(0);
+            System.err.println("Error: Maze file '" + this.fileName + "' not found.");
+            e.printStackTrace(); // Log the full error for debugging
+            throw new RuntimeException("Maze file not found.", e);
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.err.println("Error processing maze file: " + e.getMessage());
             e.printStackTrace(); // Print stack trace for debugging
-            System.exit(0);
+            throw new RuntimeException("Error processing maze file.", e);
         }
 
         return maze;
+    }
+
+    // Helper class to store ghost positions for deferred creation
+    private static class GhostPosition {
+        char type;
+        int x;
+        int y;
+
+        public GhostPosition(char type, int x, int y) {
+            this.type = type;
+            this.x = x;
+            this.y = y;
+        }
     }
 }

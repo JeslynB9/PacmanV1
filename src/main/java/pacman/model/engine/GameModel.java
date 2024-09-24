@@ -19,6 +19,7 @@ public class GameModel {
         numLives = getNumLives();
 
         notifyGameOverScreen();
+        notifyYouWinScreen();
     }
 
     public static GameModel getInstance() {
@@ -59,7 +60,7 @@ public class GameModel {
     }
 
     public void notifyReadyScreen() {
-        System.out.println("Displaying READY screen.");
+//        System.out.println("Displaying READY screen.");
         Platform.runLater(() -> {
             for (Observer observer : observers) {
                 observer.updateReadyScreen(isReadyScreenActive());
@@ -68,7 +69,7 @@ public class GameModel {
     }
 
     public void notifyGameOverScreen() {
-        System.out.println("Displaying GAME OVER screen.");
+//        System.out.println("Displaying GAME OVER screen.");
         Platform.runLater(() -> {
             for (Observer observer : observers) {
                 observer.updateGameOverScreen(isGameOver());
@@ -77,7 +78,7 @@ public class GameModel {
     }
 
     public void notifyYouWinScreen() {
-        System.out.println("Displaying YOU WIN screen.");
+//        System.out.println("Displaying YOU WIN screen.");
         Platform.runLater(() -> {
             for (Observer observer : observers) {
                 observer.updateYouWinScreen();

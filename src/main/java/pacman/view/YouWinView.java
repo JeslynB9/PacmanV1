@@ -6,6 +6,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import pacman.model.engine.GameEngine;
+import pacman.model.engine.GameEngineImpl;
 import pacman.model.level.LevelImpl;
 import pacman.model.observer.Observer;
 
@@ -17,7 +19,11 @@ public class YouWinView implements Observer {
     private Label youWinLabel;
     private VBox layout;
     private LevelImpl levelImpl;
-    public YouWinView() {
+    private GameEngine gameEngine;
+
+
+    public YouWinView(GameEngine gameEngine) {
+        this.gameEngine = gameEngine;
         try {
             FileInputStream fontFile = new FileInputStream("src/main/resources/maze/PressStart2P-Regular.ttf");
             Font customFont = Font.loadFont(fontFile, 16);
@@ -59,18 +65,38 @@ public class YouWinView implements Observer {
 
     @Override
     public void updateYouWinScreen() {
+        if (gameEngine instanceof GameEngineImpl) {
+            GameEngineImpl gameEngineImpl = (GameEngineImpl) gameEngine;
+
+            if (gameEngineImpl.isGameWon()) {
+                System.out.println("YOU WIN screen is active");
+                Platform.runLater(() -> layout.getChildren().setAll(youWinLabel));
+            } else {
+                layout.getChildren().remove(youWinLabel);
+                System.out.println("YOU WIN screen is no longer active.");
+            }
+        } else {
+            // Handle case if the gameEngine is not of type GameEngineImpl
+            System.out.println("GameEngine is not an instance of GameEngineImpl.");
+        }
 
     }
-
 
     public VBox getView() {
         return layout;
     }
 
-    public static YouWinView getInstance() {
+    public static YouWinView getInstance(GameEngine gameEngine) {
+        // First check (no synchronization)
         if (instance == null) {
-            instance = new YouWinView();
+            synchronized (YouWinView.class) {
+                // Second check (with synchronization)
+                if (instance == null) {
+                    instance = new YouWinView(gameEngine);
+                }
+            }
         }
         return instance;
     }
+
 }

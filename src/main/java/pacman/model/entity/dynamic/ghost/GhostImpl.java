@@ -39,7 +39,7 @@ public class GhostImpl implements Ghost {
         this.ghostMode = ghostMode;
         this.currentDirection = currentDirection;
         this.lastDirection = currentDirection;
-        this.movementCount = 0; // Initialize movement count
+        this.movementCount = 0;
         this.possibleDirections = new HashSet<>();
         this.targetCorner = targetCorner;
         this.targetLocation = getTargetLocation();

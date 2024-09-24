@@ -232,10 +232,9 @@ public class LevelImpl implements Level {
             setReadyScreenActive(true);
             gameModel.notifyReadyScreen();
             // Reset all the entities
-            ghosts.get(0).reset();
-            ghosts.get(1).reset();
-            ghosts.get(2).reset();
-            ghosts.get(3).reset();
+            for (Ghost ghost : ghosts) {
+                ghost.reset();
+            }
 
             player.reset();
 
@@ -271,10 +270,14 @@ public class LevelImpl implements Level {
 
     @Override
     public void collect(Collectable collectable) {
-
+        if (collectables.contains(collectable)) {
+            collectables.remove(collectable);
+//            renderables.remove(collectable);
+            System.out.println("Collected: " + collectable);
+        }
     }
 
-    private void destroyPacman() {
+    public void destroyPacman() {
         if (player != null) {
             // Remove Pac-Man from the renderables
             renderables.remove(player);
@@ -283,7 +286,7 @@ public class LevelImpl implements Level {
         }
     }
 
-    private void destroyGhosts() {
+    public void destroyGhosts() {
         for (Ghost ghost : ghosts) {
             if (ghost != null) {
                 // Remove each ghost from the renderables

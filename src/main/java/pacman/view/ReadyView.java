@@ -64,7 +64,7 @@ public class ReadyView implements Observer {
             Platform.runLater(() -> layout.getChildren().setAll(readyLabel));
         } else {
             layout.getChildren().remove(readyLabel);
-            System.out.println("READY screen is no longer active.");
+//            System.out.println("READY screen is no longer active.");
 
         }
     }

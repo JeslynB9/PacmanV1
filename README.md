@@ -68,9 +68,4 @@ gradle run
   - Pacman
 
 ### Singleton Pattern
-- GameModel
-- GameOverView
-- LifeView
-- ReadyView
-- ScoreView
-- YouWinView
+- Pacman

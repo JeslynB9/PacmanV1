@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * Concrete implement of Pac-Man level
  */
 public class LevelImpl implements Level {
-    private static final int READY_SCREEN_DURATION = 100; // 100 frames for the READY screen
+    public static final int READY_SCREEN_DURATION = 100; // 100 frames for the READY screen
     private final Maze maze;
     private List<Renderable> renderables;
     private Controllable player;

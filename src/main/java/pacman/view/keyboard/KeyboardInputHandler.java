@@ -4,9 +4,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import pacman.model.command.Command;
 import pacman.model.command.CommandFactory;
-import pacman.model.command.MoveUpCommand;
-import pacman.model.command.MoveDownCommand;
-import pacman.model.entity.dynamic.player.Pacman;
 
 /**
  * Responsible for handling keyboard input from player

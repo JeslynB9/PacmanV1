@@ -1,19 +1,7 @@
 package pacman.model.factory;
 
 import pacman.model.entity.Renderable;
-import pacman.model.entity.dynamic.ghost.GhostImpl;
-import pacman.model.entity.dynamic.ghost.GhostMode;
-import pacman.model.entity.dynamic.physics.*;
-import pacman.model.entity.dynamic.player.PacmanVisual;
-import pacman.model.entity.staticentity.StaticEntityImpl;
-import pacman.model.entity.staticentity.Wall;
 import pacman.model.entity.dynamic.player.Pacman;
-import pacman.model.entity.dynamic.ghost.Ghost;
-import pacman.model.entity.staticentity.collectable.Pellet;
-import javafx.scene.image.Image;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ConcreteEntityFactory implements EntityFactory {
     private Pacman pacman; // Store Pacman instance

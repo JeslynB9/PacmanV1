@@ -56,8 +56,6 @@ public class ScoreView implements Observer {
         // No need to implement
     }
 
-
-
     public VBox getView() {
         VBox layout = new VBox(scoreLabel);
         VBox.setMargin(scoreLabel, new Insets(20, 0, 0, 10));

@@ -47,7 +47,7 @@ public class MazeCreator {
         List<GhostPosition> ghostPositions = new ArrayList<>(); // Store ghost positions for deferred creation
 
         try (Scanner scanner = new Scanner(f)) {
-            // First pass: locate and create Pacman
+            // Locate and create Pacman
             int rowIndex = 0;
             boolean pacmanCreated = false;
             while (scanner.hasNextLine()) {
@@ -82,7 +82,7 @@ public class MazeCreator {
                 throw new IllegalStateException("Pacman not found in the maze file.");
             }
 
-            // Second pass: create ghosts after Pacman is created
+            // Create ghosts after Pacman is created
             for (GhostPosition ghostPos : ghostPositions) {
                 Renderable ghost = entityFactory.createEntity(ghostPos.type, ghostPos.x, ghostPos.y);
                 if (ghost != null) {

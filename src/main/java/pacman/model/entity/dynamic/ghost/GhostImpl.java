@@ -24,7 +24,7 @@ public class GhostImpl implements Ghost {
     private Direction currentDirection;
     private Direction lastDirection;
     private Set<Direction> possibleDirections;
-    private Vector2D playerPosition;
+    private Vector2D playerPosition = null;
     private Map<GhostMode, Double> speeds;
     private int movementCount; // Tracks how long the ghost has moved in one direction
     private static final int MIN_MOVEMENT_TICKS = 10; // Minimum ticks before direction change
@@ -87,8 +87,6 @@ public class GhostImpl implements Ghost {
     }
 
     private Vector2D getTargetLocation() {
-        Vector2D playerPosition = null;
-
         if (pacman != null) {
             // Pacman is available, retrieve its position
             playerPosition = pacman.getKinematicState().getPosition();

@@ -117,23 +117,7 @@ public class GameModel implements Subject {
     }
 
 
-    public void startGame() {
-        // LevelImpl.setReadyScreenActive(true); // Make sure the READY screen is active at the start
-        // notifyReadyScreen();
-        // LevelImpl.setGameOver(false);
-        // notifyGameOverScreen();
-    }
-
-    public int getScore() {
-        return score;
-    }
-
     public int getNumLives() {
         return numLives;
-    }
-
-    // Update logic for every frame (call tick() during gameplay)
-    public void tick() {
-        // Game tick logic
     }
 }

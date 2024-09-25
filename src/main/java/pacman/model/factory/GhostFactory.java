@@ -1,16 +1,12 @@
 package pacman.model.factory;
 
 import pacman.model.entity.Renderable;
-import pacman.model.entity.dynamic.ghost.Ghost;
 import pacman.model.entity.dynamic.ghost.GhostImpl;
 import pacman.model.entity.dynamic.ghost.GhostMode;
 import pacman.model.entity.dynamic.physics.*;
 import javafx.scene.image.Image;
 import java.util.Random;
 import pacman.model.entity.dynamic.player.Pacman;
-
-import java.util.Map;
-import java.util.HashMap;
 
 public class GhostFactory implements EntityFactory {
     private final Vector2D[] corners = {
@@ -37,7 +33,7 @@ public class GhostFactory implements EntityFactory {
         Random random = new Random();
         Vector2D targetCorner = corners[random.nextInt(corners.length)];
 
-        return new GhostImpl(ghostImage, boundingBox, kinematicState, GhostMode.SCATTER, targetCorner, Direction.LEFT, pacman); // Use the passed Pacman
+        return new GhostImpl(ghostImage, boundingBox, kinematicState, GhostMode.SCATTER, targetCorner, Direction.LEFT, pacman);
     }
 }
 

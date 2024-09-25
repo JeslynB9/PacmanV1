@@ -3,7 +3,7 @@ package pacman.view;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane; // Keep using Pane
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import pacman.model.engine.GameEngine;
 import pacman.model.engine.GameModel;
@@ -24,9 +24,6 @@ import java.util.List;
  * Responsible for managing the Pac-Man Game View
  */
 public class GameWindow {
-
-    public static final File FONT_FILE = new File("src/main/resources/maze/PressStart2P-Regular.ttf");
-
     private final Scene scene;
     private final Pane pane;
     private final GameEngine model;

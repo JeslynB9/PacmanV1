@@ -1,9 +1,7 @@
 package pacman.model.entity.staticentity;
 
 import javafx.scene.image.Image;
-import pacman.model.entity.Renderable;
 import pacman.model.entity.dynamic.physics.BoundingBox;
-import pacman.model.entity.dynamic.physics.Vector2D;
 
 /**
  * Represents a wall entity in the Pac-Man game.
@@ -18,12 +16,8 @@ public class Wall extends StaticEntityImpl {
         this.wallType = wallType;
     }
 
-    public String getWallType() {
-        return wallType;
-    }
-
     @Override
     public boolean canPassThrough() {
-        return false; // Walls cannot be passed through
+        return false;
     }
 }

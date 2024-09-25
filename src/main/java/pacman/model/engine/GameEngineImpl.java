@@ -165,6 +165,5 @@ public class GameEngineImpl implements GameEngine {
     @Override
     public GameModel getGameModel() {return gameModel;}
 
-
 }
 

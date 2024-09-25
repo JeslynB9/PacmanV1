@@ -68,4 +68,5 @@ gradle run
   - Pacman
 
 ### Singleton Pattern
-- Pacman
+- GameModel
+- GameConfigurationReader

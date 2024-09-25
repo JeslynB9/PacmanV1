@@ -34,7 +34,8 @@ public class GameEngineImpl implements GameEngine {
     public GameEngineImpl(String configPath) {
         this.currentLevelNo = 0;
         this.concreteEntityFactory = new ConcreteEntityFactory();
-        init(new GameConfigurationReader(configPath));
+        GameConfigurationReader gameConfigurationReader = GameConfigurationReader.getInstance(configPath);
+        init(gameConfigurationReader);
         gameModel = GameModel.getInstance();
     }
 

@@ -10,13 +10,18 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Helper class to read Game Configuration from JSONObject
+ * Helper class to read Game Configuration from JSONObject using Singleton pattern.
  */
 public class GameConfigurationReader {
 
+    // Static variable to hold the single instance of GameConfigurationReader
+    private static GameConfigurationReader instance;
+
+    // Game configuration JSON object
     private JSONObject gameConfig;
 
-    public GameConfigurationReader(String configPath){
+    // Private constructor to prevent instantiation from outside
+    private GameConfigurationReader(String configPath) {
         JSONParser parser = new JSONParser();
 
         try {
@@ -33,27 +38,35 @@ public class GameConfigurationReader {
         }
     }
 
+    // Provide access to the single instance
+    public static GameConfigurationReader getInstance(String configPath) {
+        if (instance == null) {
+            instance = new GameConfigurationReader(configPath);
+        }
+        return instance;
+    }
+
     /**
-     * Gets the path of map file
-     * @return path of map file
+     * Gets the path of the map file.
+     * @return Path of the map file.
      */
-    public String getMapFile(){
+    public String getMapFile() {
         return (String) gameConfig.get("map");
     }
 
     /**
-     * Gets the number of lives of player
-     * @return number of lives of player
+     * Gets the number of lives of the player.
+     * @return Number of lives of the player.
      */
-    public int getNumLives(){
+    public int getNumLives() {
         return ((Number) gameConfig.get("numLives")).intValue();
     }
 
     /**
-     * Gets JSONArray of level configurations
-     * @return  JSONArray of level configurations
+     * Gets JSONArray of level configurations.
+     * @return JSONArray of level configurations.
      */
-    public JSONArray getLevelConfigs(){
+    public JSONArray getLevelConfigs() {
         return (JSONArray) gameConfig.get("levels");
     }
 }

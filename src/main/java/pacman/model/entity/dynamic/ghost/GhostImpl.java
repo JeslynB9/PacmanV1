@@ -1,11 +1,9 @@
 package pacman.model.entity.dynamic.ghost;
 
 import javafx.scene.image.Image;
-import pacman.model.engine.GameModel;
 import pacman.model.entity.Renderable;
 import pacman.model.entity.dynamic.physics.*;
 import pacman.model.entity.dynamic.player.Pacman;
-import pacman.model.factory.PacmanFactory;
 import pacman.model.level.Level;
 import pacman.model.maze.Maze;
 
@@ -62,6 +60,7 @@ public class GhostImpl implements Ghost {
         this.updateDirection();
         this.kinematicState.update();
         this.boundingBox.setTopLeft(this.kinematicState.getPosition());
+        System.out.println("Target Location: " + targetLocation);
     }
 
     private void updateDirection() {

@@ -16,7 +16,6 @@ import pacman.view.entity.EntityViewImpl;
 import pacman.view.keyboard.KeyboardInputHandler;
 import pacman.view.observer.*;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

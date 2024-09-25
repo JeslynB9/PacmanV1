@@ -13,7 +13,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class ReadyView implements Observer {
-    private static ReadyView instance;
     private Label readyLabel;
     private VBox layout;
     private LevelImpl levelImpl;

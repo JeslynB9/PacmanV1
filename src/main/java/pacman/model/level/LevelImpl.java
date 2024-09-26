@@ -67,7 +67,7 @@ public class LevelImpl implements Level {
     }
 
     private void initLevel(LevelConfigurationReader levelConfigurationReader) {
-        // Fetch all renderables for the level
+        // Get all renderables for the level
         this.renderables = maze.getRenderables();
 
         Object controllableEntity = maze.getControllable();
@@ -147,11 +147,11 @@ public class LevelImpl implements Level {
         // Update all dynamic entities (Pac-Man, Ghosts, etc.)
         List<DynamicEntity> dynamicEntities = getDynamicEntities();
         for (DynamicEntity dynamicEntity : dynamicEntities) {
-            maze.updatePossibleDirections(dynamicEntity);  // Check valid directions
-            dynamicEntity.update();  // Update entity's state (movement, etc.)
+            maze.updatePossibleDirections(dynamicEntity);
+            dynamicEntity.update();
         }
 
-        // Handle collisions between dynamic entities (Pac-Man and ghosts)
+        // Handle collisions between dynamic entities
         for (int i = 0; i < dynamicEntities.size(); ++i) {
             DynamicEntity dynamicEntityA = dynamicEntities.get(i);
             for (int j = i + 1; j < dynamicEntities.size(); ++j) {
@@ -162,7 +162,7 @@ public class LevelImpl implements Level {
                 }
             }
 
-            // Handle collisions between dynamic entities and static entities (walls, pellets)
+            // Handle collisions between dynamic entities and static entities
             for (StaticEntity staticEntity : getStaticEntities()) {
                 if (dynamicEntityA.collidesWith(staticEntity)) {
                     dynamicEntityA.collideWith(this, staticEntity);
@@ -263,7 +263,7 @@ public class LevelImpl implements Level {
                 public void run() {
                     System.exit(0); // Exit the game
                 }
-            }, 5000); // 5000 milliseconds = 5 seconds
+            }, 5000); // 5000 milliseconds
         }
     }
 
@@ -271,7 +271,6 @@ public class LevelImpl implements Level {
     public void collect(Collectable collectable) {
         if (collectables.contains(collectable)) {
             collectables.remove(collectable);
-//            renderables.remove(collectable);
             System.out.println("Collected: " + collectable);
         }
     }
@@ -290,7 +289,6 @@ public class LevelImpl implements Level {
             if (ghost != null) {
                 // Remove each ghost from the renderables
                 renderables.remove(ghost);
-                // Optionally, set ghost to null
                 ghost = null;
             }
         }

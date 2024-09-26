@@ -44,7 +44,7 @@ public class MazeCreator {
 
         File f = new File(this.fileName);
         Maze maze = new Maze();
-        List<GhostPosition> ghostPositions = new ArrayList<>(); // Store ghost positions for deferred creation
+        List<GhostPosition> ghostPositions = new ArrayList<>(); // Store ghost positions
 
         try (Scanner scanner = new Scanner(f)) {
             // Locate and create Pacman
@@ -57,14 +57,14 @@ public class MazeCreator {
                 for (int columnIndex = 0; columnIndex < row.length; columnIndex++) {
                     char type = row[columnIndex];
 
-                    if (type == 'p') { // 'p' for Pacman
+                    if (type == 'p') {
                         Renderable pacman = entityFactory.createEntity(type, columnIndex, rowIndex);
                         if (pacman != null) {
                             maze.addRenderable(pacman, type, columnIndex, rowIndex);
                             pacmanCreated = true;
                         }
                     } else if (type == 'g') {
-                        // Defer ghost creation by saving its position
+                        // Create the ghosts
                         ghostPositions.add(new GhostPosition(type, columnIndex, rowIndex));
                     } else {
                         // Create all other entities except Pacman and Ghosts

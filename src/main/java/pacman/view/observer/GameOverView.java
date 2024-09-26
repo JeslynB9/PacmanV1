@@ -37,12 +37,12 @@ public class GameOverView implements Observer {
 
         layout = new VBox(gameOverLabel);
         layout.setPadding(new Insets(320, 0, 0, 155));
-        layout.setAlignment(Pos.CENTER);  // Center alignment for VBox
+        layout.setAlignment(Pos.CENTER);
     }
 
     @Override
     public void update(int score, int lives) {
-        // No need to implement for score and lives
+        // No need to implement
     }
 
     @Override

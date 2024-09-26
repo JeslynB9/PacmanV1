@@ -43,12 +43,12 @@ public class ScoreView implements Observer {
 
     @Override
     public void updateReadyScreen(boolean readyScreenActive) {
-
+        // No need to implement
     }
 
     @Override
     public void updateGameOverScreen(boolean isGameOver) {
-
+        // No need to implement
     }
 
     @Override

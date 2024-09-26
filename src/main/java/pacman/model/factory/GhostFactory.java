@@ -13,12 +13,12 @@ public class GhostFactory implements EntityFactory {
             new Vector2D(0, 4),
             new Vector2D(28, 4),
             new Vector2D(0, 34),
-            new Vector2D(28, 24)
+            new Vector2D(28, 34)
     };
-    private final Pacman pacman; // Store reference to Pacman
+    private final Pacman pacman;
 
     public GhostFactory(Pacman pacman) {
-        this.pacman = pacman; // Pass Pacman in constructor
+        this.pacman = pacman;
     }
 
     @Override

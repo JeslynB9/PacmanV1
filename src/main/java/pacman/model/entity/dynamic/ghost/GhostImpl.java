@@ -60,7 +60,6 @@ public class GhostImpl implements Ghost {
         this.updateDirection();
         this.kinematicState.update();
         this.boundingBox.setTopLeft(this.kinematicState.getPosition());
-        System.out.println("Target Location: " + targetLocation);
     }
 
     private void updateDirection() {
@@ -90,15 +89,16 @@ public class GhostImpl implements Ghost {
         if (pacman != null) {
             // Pacman is available, retrieve its position
             playerPosition = pacman.getKinematicState().getPosition();
+            System.out.println("Pacman instance is there!");
         } else {
-            // Pacman is not initialized, handle this scenario (perhaps with logging)
+            // Pacman is not initialized
             System.out.println("Pacman instance is null!");
         }
 
-        // Return target based on ghostMode: CHASE -> playerPosition, SCATTER -> targetCorner
+        // Return target based on ghostMode
         return switch (this.ghostMode) {
-            case CHASE -> playerPosition;  // Chase mode targets Pacman's current position
-            case SCATTER -> this.targetCorner;  // Scatter mode targets the ghost's designated corner
+            case CHASE -> playerPosition;
+            case SCATTER -> this.targetCorner;
         };
     }
 

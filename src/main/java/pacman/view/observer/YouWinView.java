@@ -48,7 +48,7 @@ public class YouWinView implements Observer {
 
     @Override
     public void update(int score, int lives) {
-        // No need to implement for score and lives
+        // No need to implement
     }
 
     @Override

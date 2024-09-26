@@ -66,7 +66,6 @@ public class Pacman implements Controllable {
     public void update() {
         kinematicState.update();
         this.boundingBox.setTopLeft(this.kinematicState.getPosition());
-        System.out.println("Pacman Position: " + this.kinematicState.getPosition());
     }
 
     @Override
@@ -103,17 +102,12 @@ public class Pacman implements Controllable {
         return this.layer;
     }
 
-    public void setScoreView(ScoreView scoreView) {
-        this.scoreView = scoreView;
-    }
-
     @Override
     public void collideWith(Level level, Renderable renderable){
         if (level.isCollectable(renderable)){
             Collectable collectable = (Collectable) renderable;
             level.collect(collectable);
             collectable.collect();
-            System.out.println("Pellet collected!");
             gameModel.increaseScore(100);
         }
     }

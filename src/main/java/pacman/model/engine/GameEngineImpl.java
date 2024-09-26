@@ -116,7 +116,7 @@ public class GameEngineImpl implements GameEngine {
         }
 
         // Normal game tick logic starts here after "Ready" screen is done
-        currentLevel.tick();  // Progress the level normally (e.g., move entities, check collisions)
+        currentLevel.tick();
 
         if (currentLevel.isLevelFinished()) {
             System.out.println("Level finished. Moving to next level...");
@@ -128,8 +128,8 @@ public class GameEngineImpl implements GameEngine {
                 startLevel();  // Start the next level
                 setGameWon(false);
                 gameModel.notifyYouWinScreen();
-                readyFrameCounter = 0;  // Reset counter for the next level's "Ready" screen
-                gameModel.notifyReadyScreen();  // Notify to display the "Ready" screen
+                readyFrameCounter = 0;
+                gameModel.notifyReadyScreen();
             } else {
                 // All levels completed, trigger a "game won" event
                 setGameWon(true);
@@ -148,7 +148,7 @@ public class GameEngineImpl implements GameEngine {
                     public void run() {
                         System.exit(0); // Exit the game
                     }
-                }, 5000); // 5000 milliseconds = 5 seconds
+                }, 5000); // 5000 milliseconds
             }
         }
     }

@@ -27,7 +27,6 @@ public class GameWindow {
     private final Pane pane;
     private final GameEngine model;
     private final List<EntityView> entityViews;
-    private Pacman pacman;
 
     public GameWindow(GameEngine model, int width, int height) {
         this.model = model;

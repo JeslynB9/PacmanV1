@@ -61,7 +61,6 @@ public class GameModel implements Subject {
     }
 
     public void notifyReadyScreen() {
-//        System.out.println("Displaying READY screen.");
         Platform.runLater(() -> {
             for (Observer observer : observers) {
                 observer.updateReadyScreen(isReadyScreenActive());
@@ -70,7 +69,6 @@ public class GameModel implements Subject {
     }
 
     public void notifyGameOverScreen() {
-//        System.out.println("Displaying GAME OVER screen.");
         Platform.runLater(() -> {
             for (Observer observer : observers) {
                 observer.updateGameOverScreen(isGameOver());
@@ -79,7 +77,6 @@ public class GameModel implements Subject {
     }
 
     public void notifyYouWinScreen() {
-//        System.out.println("Displaying YOU WIN screen.");
         Platform.runLater(() -> {
             for (Observer observer : observers) {
                 observer.updateYouWinScreen();
@@ -95,14 +92,14 @@ public class GameModel implements Subject {
         return LevelImpl.isReadyScreenActive();
     }
 
-    // Simulate the game's logic where the score changes
+    // The score changes
     public void increaseScore(int points) {
         score += points;
         System.out.println("Score increased: " + score);
         notifyObservers(); // Notify observers about the updated score
     }
 
-    // Simulate the game's logic where a life is lost
+    // A life is lost
     public void loseLife() {
         if (numLives > 0) {
             numLives--;

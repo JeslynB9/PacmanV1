@@ -1,4 +1,4 @@
-# Pacman Assignment 2
+# Pacman Version 1
 ## How to Run
 There are two steps to run the game.
 1. Build the game using:

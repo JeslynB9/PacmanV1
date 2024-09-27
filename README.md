@@ -70,3 +70,5 @@ gradle run
 ### Singleton Pattern
 - GameModel
 - GameConfigurationReader
+
+This project comes from University of Sydney 2024 S2 SOFT2201.
